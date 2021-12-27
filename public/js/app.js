@@ -98350,7 +98350,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "callout callout-info text-center" }, [
       _c("h5", [
-        _vm._v("\n                    No Data Information "),
+        _vm._v("\n                    No Data Information In Module Users "),
         _c("i", { staticClass: "fas fa-info-circle" }),
       ]),
     ])
