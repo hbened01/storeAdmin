@@ -23,6 +23,8 @@ Route::get('/{optional?}', function () {
     return view('index');
 })->name('basepath');
 
+Route::get('/admin/user/getListUsers', 'App\Http\Controllers\Admin\UsersController@getListUsers');
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

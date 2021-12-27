@@ -12,3 +12,14 @@
     opacity: 0;
 }
 
+.btn-width {
+    width: 50%;
+}
+
+.style-inline-1 {
+    display: inline-flex;
+}
+
+.el-select {
+    width: 100%;
+}
