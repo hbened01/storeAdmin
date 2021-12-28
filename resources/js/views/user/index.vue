@@ -23,7 +23,7 @@
       <div class="card">
         <div class="card-header">
           <div class="card-tools">
-            <router-link class="btn btn-info btn-sm" :to="'/'">
+            <router-link class="btn btn-info btn-sm" :to="'/user/create'">
               Add User <i class="fas fa-user-plus"></i>
             </router-link>
           </div>
@@ -44,6 +44,7 @@
                           type="text"
                           class="form-control"
                           v-model="FilterSearchUser.name"
+                          @keyup.enter="getListUsers"
                         />
                       </div>
                     </div>
@@ -54,6 +55,7 @@
                           type="text"
                           class="form-control"
                           v-model="FilterSearchUser.user"
+                          @keyup.enter="getListUsers"
                         />
                       </div>
                     </div>
@@ -64,6 +66,7 @@
                           type="email"
                           class="form-control"
                           v-model="FilterSearchUser.email"
+                          @keyup.enter="getListUsers"
                         />
                       </div>
                     </div>
@@ -96,6 +99,7 @@
                     <button
                       class="btn btn-flat btn-info btn-width"
                       @click.prevent="getListUsers"
+                      v-loading.fullscreen.lock="fullscreenLoading"
                     >
                       Search
                     </button>
@@ -217,7 +221,8 @@
                 <template v-else>
                   <div class="callout callout-info text-center">
                     <h5>
-                      No Data Information In Module Users <i class="fas fa-info-circle"></i>
+                      No Data Information In Module Users
+                      <i class="fas fa-info-circle"></i>
                     </h5>
                   </div>
                 </template>
@@ -255,6 +260,7 @@ export default {
           label: "INACTIVE",
         },
       ],
+      fullscreenLoading: false,
     };
   },
   computed: {
@@ -291,6 +297,9 @@ export default {
     selectPage(page) {
       this.pageNumber = page;
     },
+    initializePagination() {
+      this.pageNumber = 0;
+    },
     clearSearchCriteria() {
       this.FilterSearchUser.name = "";
       this.FilterSearchUser.user = "";
@@ -301,7 +310,8 @@ export default {
       this.listUsers = [];
     },
     getListUsers() {
-      let url = `admin/user/getListUsers`;
+      this.fullscreenLoading = true;
+      let url = `/admin/user/getListUsers`;
       axios
         .get(url, {
           params: {
@@ -312,7 +322,9 @@ export default {
           },
         })
         .then((response) => {
+          this.initializePagination();
           this.listUsers = response.data;
+          this.fullscreenLoading = false;
         });
     },
   },

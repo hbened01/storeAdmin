@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,12 +20,17 @@ Route::get('/', function () {
 });
 */
 
-Route::get('/{optional?}', function () {
-    return view('index');
-})->name('basepath');
 
 Route::get('/admin/user/getListUsers', 'App\Http\Controllers\Admin\UsersController@getListUsers');
+Route::post('/admin/user/setRegisterUser', 'App\Http\Controllers\Admin\UsersController@setRegisterUser');
 
-Auth::routes();
+Route::post('/file/setRegisterFile', 'App\Http\Controllers\FilesController@setRegisterFile');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/{optional?}', function () {
+    return view('index');
+})->name('basepath')
+  ->where('optional', '.*');
+
+// Auth::routes();
+
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

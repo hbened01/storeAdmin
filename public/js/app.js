@@ -7778,6 +7778,336 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/user/create.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/user/create.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "Users",
+  props: {},
+  mixins: [],
+  data: function data() {
+    return {
+      fillCreateUser: {
+        firstname: "",
+        secondname: "",
+        lastname: "",
+        user: "",
+        email: "",
+        password: "",
+        photography: ""
+      },
+      modalShow: false,
+      viewModal: {
+        display: "block",
+        background: "#00000006b"
+      },
+      hideModal: {
+        display: "none"
+      },
+      error: 0,
+      messageError: [],
+      form: new FormData(),
+      fullscreenLoading: false
+    };
+  },
+  computed: {},
+  methods: {
+    setRegisterUser: function setRegisterUser() {
+      if (this.validateUserForm()) {
+        this.modalShow = true;
+        return true;
+      }
+
+      this.fullscreenLoading = true;
+
+      if (!this.fillCreateUser.photography || this.fillCreateUser.photography == undefined) {
+        this.setSaveUser();
+      } else {
+        this.setRegisterFile();
+      }
+    },
+    setRegisterFile: function setRegisterFile() {
+      var _this$fillCreateUser,
+          _this = this;
+
+      this.form.append("file", (_this$fillCreateUser = this.fillCreateUser) === null || _this$fillCreateUser === void 0 ? void 0 : _this$fillCreateUser.photography);
+      var config = {
+        headers: {
+          "content-type": "multiport/form-data"
+        }
+      };
+      var url = "/file/setRegisterFile";
+      axios.post(url, this.form, config).then(function (response) {
+        var _response$data$;
+
+        var idFile = response === null || response === void 0 ? void 0 : (_response$data$ = response.data[0]) === null || _response$data$ === void 0 ? void 0 : _response$data$.idFile;
+
+        _this.setSaveUser(idFile);
+      });
+    },
+    setSaveUser: function setSaveUser() {
+      var _this$fillCreateUser2,
+          _this$fillCreateUser3,
+          _this$fillCreateUser4,
+          _this$fillCreateUser5,
+          _this$fillCreateUser6,
+          _this$fillCreateUser7,
+          _this2 = this;
+
+      var idFile = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+      var url = "/admin/user/setRegisterUser";
+      axios.post(url, {
+        firstname: (_this$fillCreateUser2 = this.fillCreateUser) === null || _this$fillCreateUser2 === void 0 ? void 0 : _this$fillCreateUser2.firstname,
+        secondname: (_this$fillCreateUser3 = this.fillCreateUser) === null || _this$fillCreateUser3 === void 0 ? void 0 : _this$fillCreateUser3.secondname,
+        lastname: (_this$fillCreateUser4 = this.fillCreateUser) === null || _this$fillCreateUser4 === void 0 ? void 0 : _this$fillCreateUser4.lastname,
+        user: (_this$fillCreateUser5 = this.fillCreateUser) === null || _this$fillCreateUser5 === void 0 ? void 0 : _this$fillCreateUser5.user,
+        email: (_this$fillCreateUser6 = this.fillCreateUser) === null || _this$fillCreateUser6 === void 0 ? void 0 : _this$fillCreateUser6.email,
+        password: (_this$fillCreateUser7 = this.fillCreateUser) === null || _this$fillCreateUser7 === void 0 ? void 0 : _this$fillCreateUser7.password,
+        photography: idFile
+      }).then(function (response) {
+        _this2.fullscreenLoading = false;
+
+        _this2.$router.push('/user');
+      });
+    },
+    getFile: function getFile(e) {
+      this.fillCreateUser.photography = e.target.files[0];
+    },
+    openModal: function openModal() {
+      this.modalShow = !this.modalShow;
+    },
+    closedModal: function closedModal() {
+      this.modalShow = !this.modalShow;
+    },
+    validateUserForm: function validateUserForm() {
+      var _this$fillCreateUser8, _this$fillCreateUser9, _this$fillCreateUser10, _this$fillCreateUser11, _this$fillCreateUser12, _this$fillCreateUser13;
+
+      this.error = 0;
+      this.messageError = [];
+
+      if (!((_this$fillCreateUser8 = this.fillCreateUser) !== null && _this$fillCreateUser8 !== void 0 && _this$fillCreateUser8.firstname)) {
+        this.messageError.push('"Firts Name" <strong>is obligatory</strong>');
+      }
+
+      if (!((_this$fillCreateUser9 = this.fillCreateUser) !== null && _this$fillCreateUser9 !== void 0 && _this$fillCreateUser9.secondname)) {
+        this.messageError.push('"Second Name" <strong>is obligatory</strong>');
+      }
+
+      if (!((_this$fillCreateUser10 = this.fillCreateUser) !== null && _this$fillCreateUser10 !== void 0 && _this$fillCreateUser10.lastname)) {
+        this.messageError.push('"Last Name" <strong>is obligatory</strong>');
+      }
+
+      if (!((_this$fillCreateUser11 = this.fillCreateUser) !== null && _this$fillCreateUser11 !== void 0 && _this$fillCreateUser11.user)) {
+        this.messageError.push('"User" <strong>is obligatory</strong>');
+      }
+
+      if (!((_this$fillCreateUser12 = this.fillCreateUser) !== null && _this$fillCreateUser12 !== void 0 && _this$fillCreateUser12.email)) {
+        this.messageError.push('"Email" <strong>is obligatory</strong>');
+      }
+
+      if (!((_this$fillCreateUser13 = this.fillCreateUser) !== null && _this$fillCreateUser13 !== void 0 && _this$fillCreateUser13.password)) {
+        this.messageError.push('"Password" <strong>is obligatory</strong>');
+      }
+
+      if (this.messageError.length) {
+        this.error = 1;
+      }
+
+      return this.error;
+    }
+  },
+  clearFormUser: function clearFormUser() {
+    this.fillCreateUser.firstname = '';
+    this.fillCreateUser.secondname = '';
+    this.fillCreateUser.lastname = '';
+    this.fillCreateUser.user = '';
+    this.fillCreateUser.email = '';
+    this.fillCreateUser.password = '';
+    this.fillCreateUser.photography = '';
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/user/index.vue?vue&type=script&lang=js&":
 /*!************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/user/index.vue?vue&type=script&lang=js& ***!
@@ -7789,6 +8119,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+//
+//
+//
+//
+//
 //
 //
 //
@@ -8041,7 +8376,8 @@ __webpack_require__.r(__webpack_exports__);
       }, {
         value: "I",
         label: "INACTIVE"
-      }]
+      }],
+      fullscreenLoading: false
     };
   },
   computed: {
@@ -8080,6 +8416,9 @@ __webpack_require__.r(__webpack_exports__);
     selectPage: function selectPage(page) {
       this.pageNumber = page;
     },
+    initializePagination: function initializePagination() {
+      this.pageNumber = 0;
+    },
     clearSearchCriteria: function clearSearchCriteria() {
       this.FilterSearchUser.name = "";
       this.FilterSearchUser.user = "";
@@ -8092,7 +8431,8 @@ __webpack_require__.r(__webpack_exports__);
     getListUsers: function getListUsers() {
       var _this = this;
 
-      var url = "admin/user/getListUsers";
+      this.fullscreenLoading = true;
+      var url = "/admin/user/getListUsers";
       axios.get(url, {
         params: {
           name: this.FilterSearchUser.name,
@@ -8101,7 +8441,10 @@ __webpack_require__.r(__webpack_exports__);
           state: this.FilterSearchUser.state
         }
       }).then(function (response) {
+        _this.initializePagination();
+
         _this.listUsers = response.data;
+        _this.fullscreenLoading = false;
       });
     }
   }
@@ -8245,8 +8588,12 @@ vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vue_router__WEBPACK_IMPORTED_MOD
   }, {
     path: "/user",
     component: (__webpack_require__(/*! ./../views/user/index */ "./resources/js/views/user/index.vue")["default"])
+  }, {
+    path: "/user/create",
+    component: (__webpack_require__(/*! ./../views/user/create */ "./resources/js/views/user/create.vue")["default"])
   }],
-  mode: 'history'
+  mode: 'history',
+  linkExactActiveClass: 'active'
 }));
 
 /***/ }),
@@ -96078,6 +96425,45 @@ component.options.__file = "resources/js/views/rol/index.vue"
 
 /***/ }),
 
+/***/ "./resources/js/views/user/create.vue":
+/*!********************************************!*\
+  !*** ./resources/js/views/user/create.vue ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _create_vue_vue_type_template_id_e21b58de___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./create.vue?vue&type=template&id=e21b58de& */ "./resources/js/views/user/create.vue?vue&type=template&id=e21b58de&");
+/* harmony import */ var _create_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./create.vue?vue&type=script&lang=js& */ "./resources/js/views/user/create.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _create_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _create_vue_vue_type_template_id_e21b58de___WEBPACK_IMPORTED_MODULE_0__.render,
+  _create_vue_vue_type_template_id_e21b58de___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/views/user/create.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/views/user/index.vue":
 /*!*******************************************!*\
   !*** ./resources/js/views/user/index.vue ***!
@@ -96309,6 +96695,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/views/user/create.vue?vue&type=script&lang=js&":
+/*!*********************************************************************!*\
+  !*** ./resources/js/views/user/create.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_create_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./create.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/user/create.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_create_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
 /***/ "./resources/js/views/user/index.vue?vue&type=script&lang=js&":
 /*!********************************************************************!*\
   !*** ./resources/js/views/user/index.vue?vue&type=script&lang=js& ***!
@@ -96525,6 +96927,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_template_id_1ef4ccba___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_template_id_1ef4ccba___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./index.vue?vue&type=template&id=1ef4ccba& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/rol/index.vue?vue&type=template&id=1ef4ccba&");
+
+
+/***/ }),
+
+/***/ "./resources/js/views/user/create.vue?vue&type=template&id=e21b58de&":
+/*!***************************************************************************!*\
+  !*** ./resources/js/views/user/create.vue?vue&type=template&id=e21b58de& ***!
+  \***************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_create_vue_vue_type_template_id_e21b58de___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_create_vue_vue_type_template_id_e21b58de___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_create_vue_vue_type_template_id_e21b58de___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./create.vue?vue&type=template&id=e21b58de& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/user/create.vue?vue&type=template&id=e21b58de&");
 
 
 /***/ }),
@@ -97749,6 +98168,518 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/user/create.vue?vue&type=template&id=e21b58de&":
+/*!******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/user/create.vue?vue&type=template&id=e21b58de& ***!
+  \******************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "content container-fluid" }, [
+      _c("div", { staticClass: "card" }, [
+        _c("div", { staticClass: "card-header" }, [
+          _c(
+            "div",
+            { staticClass: "card-tools" },
+            [
+              _c(
+                "router-link",
+                { staticClass: "btn btn-info btn-sm", attrs: { to: "/user" } },
+                [
+                  _vm._v("\n            Back "),
+                  _c("i", { staticClass: "fas fa-arrow-left" }),
+                ]
+              ),
+            ],
+            1
+          ),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "card-body" }, [
+          _c("div", { staticClass: "container-fluid" }, [
+            _c("div", { staticClass: "card card-info" }, [
+              _vm._m(1),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-body" }, [
+                _c("form", { attrs: { role: "form" } }, [
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col-md-6" }, [
+                      _c("label", { staticClass: "col-md-3 col-form-label" }, [
+                        _vm._v("First Name"),
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-9" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.fillCreateUser.firstname,
+                              expression: "fillCreateUser.firstname",
+                            },
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text" },
+                          domProps: { value: _vm.fillCreateUser.firstname },
+                          on: {
+                            keyup: function ($event) {
+                              if (
+                                !$event.type.indexOf("key") &&
+                                _vm._k(
+                                  $event.keyCode,
+                                  "enter",
+                                  13,
+                                  $event.key,
+                                  "Enter"
+                                )
+                              ) {
+                                return null
+                              }
+                              return _vm.setRegisterUser.apply(null, arguments)
+                            },
+                            input: function ($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.fillCreateUser,
+                                "firstname",
+                                $event.target.value
+                              )
+                            },
+                          },
+                        }),
+                      ]),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-6" }, [
+                      _c("label", { staticClass: "col-md-3 col-form-label" }, [
+                        _vm._v("Second Name"),
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-9" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.fillCreateUser.secondname,
+                              expression: "fillCreateUser.secondname",
+                            },
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text" },
+                          domProps: { value: _vm.fillCreateUser.secondname },
+                          on: {
+                            keyup: function ($event) {
+                              if (
+                                !$event.type.indexOf("key") &&
+                                _vm._k(
+                                  $event.keyCode,
+                                  "enter",
+                                  13,
+                                  $event.key,
+                                  "Enter"
+                                )
+                              ) {
+                                return null
+                              }
+                              return _vm.setRegisterUser.apply(null, arguments)
+                            },
+                            input: function ($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.fillCreateUser,
+                                "secondname",
+                                $event.target.value
+                              )
+                            },
+                          },
+                        }),
+                      ]),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-6" }, [
+                      _c("label", { staticClass: "col-md-3 col-form-label" }, [
+                        _vm._v("Last Name"),
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-9" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.fillCreateUser.lastname,
+                              expression: "fillCreateUser.lastname",
+                            },
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text" },
+                          domProps: { value: _vm.fillCreateUser.lastname },
+                          on: {
+                            keyup: function ($event) {
+                              if (
+                                !$event.type.indexOf("key") &&
+                                _vm._k(
+                                  $event.keyCode,
+                                  "enter",
+                                  13,
+                                  $event.key,
+                                  "Enter"
+                                )
+                              ) {
+                                return null
+                              }
+                              return _vm.setRegisterUser.apply(null, arguments)
+                            },
+                            input: function ($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.fillCreateUser,
+                                "lastname",
+                                $event.target.value
+                              )
+                            },
+                          },
+                        }),
+                      ]),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-6" }, [
+                      _c("label", { staticClass: "col-md-3 col-form-label" }, [
+                        _vm._v("User"),
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-9" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.fillCreateUser.user,
+                              expression: "fillCreateUser.user",
+                            },
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text" },
+                          domProps: { value: _vm.fillCreateUser.user },
+                          on: {
+                            keyup: function ($event) {
+                              if (
+                                !$event.type.indexOf("key") &&
+                                _vm._k(
+                                  $event.keyCode,
+                                  "enter",
+                                  13,
+                                  $event.key,
+                                  "Enter"
+                                )
+                              ) {
+                                return null
+                              }
+                              return _vm.setRegisterUser.apply(null, arguments)
+                            },
+                            input: function ($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.fillCreateUser,
+                                "user",
+                                $event.target.value
+                              )
+                            },
+                          },
+                        }),
+                      ]),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-6" }, [
+                      _c("label", { staticClass: "col-md-3 col-form-label" }, [
+                        _vm._v("Email"),
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-9" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.fillCreateUser.email,
+                              expression: "fillCreateUser.email",
+                            },
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "email" },
+                          domProps: { value: _vm.fillCreateUser.email },
+                          on: {
+                            keyup: function ($event) {
+                              if (
+                                !$event.type.indexOf("key") &&
+                                _vm._k(
+                                  $event.keyCode,
+                                  "enter",
+                                  13,
+                                  $event.key,
+                                  "Enter"
+                                )
+                              ) {
+                                return null
+                              }
+                              return _vm.setRegisterUser.apply(null, arguments)
+                            },
+                            input: function ($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.fillCreateUser,
+                                "email",
+                                $event.target.value
+                              )
+                            },
+                          },
+                        }),
+                      ]),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-6" }, [
+                      _c("label", { staticClass: "col-md-3 col-form-label" }, [
+                        _vm._v("Password"),
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "col-md-9" },
+                        [
+                          _c("el-input", {
+                            attrs: {
+                              placeholder: "Please input password",
+                              "show-password": "",
+                            },
+                            on: {
+                              keyup: function ($event) {
+                                if (
+                                  !$event.type.indexOf("key") &&
+                                  _vm._k(
+                                    $event.keyCode,
+                                    "enter",
+                                    13,
+                                    $event.key,
+                                    "Enter"
+                                  )
+                                ) {
+                                  return null
+                                }
+                                return _vm.setRegisterUser.apply(
+                                  null,
+                                  arguments
+                                )
+                              },
+                            },
+                            model: {
+                              value: _vm.fillCreateUser.password,
+                              callback: function ($$v) {
+                                _vm.$set(_vm.fillCreateUser, "password", $$v)
+                              },
+                              expression: "fillCreateUser.password",
+                            },
+                          }),
+                        ],
+                        1
+                      ),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-6" }, [
+                      _c("label", { staticClass: "col-md-3 col-form-label" }, [
+                        _vm._v("Photography"),
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-9" }, [
+                        _c("input", {
+                          staticClass: "form-control",
+                          attrs: { type: "file" },
+                          on: { change: _vm.getFile },
+                        }),
+                      ]),
+                    ]),
+                  ]),
+                ]),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-footer" }, [
+                _c("div", { staticClass: "row" }, [
+                  _c(
+                    "div",
+                    { staticClass: "col-md-4 offset-4 style-inline-1" },
+                    [
+                      _c(
+                        "button",
+                        {
+                          directives: [
+                            {
+                              name: "loading",
+                              rawName: "v-loading.fullscreen.lock",
+                              value: _vm.fullscreenLoading,
+                              expression: "fullscreenLoading",
+                              modifiers: { fullscreen: true, lock: true },
+                            },
+                          ],
+                          staticClass: "btn btn-flat btn-info btn-width",
+                          on: {
+                            click: function ($event) {
+                              $event.preventDefault()
+                              return _vm.setRegisterUser.apply(null, arguments)
+                            },
+                          },
+                        },
+                        [
+                          _vm._v(
+                            "\n                    Add New\n                  "
+                          ),
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-flat btn-default btn-width",
+                          on: {
+                            click: function ($event) {
+                              $event.preventDefault()
+                              return _vm.clearFormUser.apply(null, arguments)
+                            },
+                          },
+                        },
+                        [
+                          _vm._v(
+                            "\n                    Clear\n                  "
+                          ),
+                        ]
+                      ),
+                    ]
+                  ),
+                ]),
+              ]),
+            ]),
+          ]),
+        ]),
+      ]),
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        class: ["modal", "fade", { show: _vm.modalShow }],
+        style: _vm.modalShow ? _vm.viewModal : _vm.hideModal,
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "modal-dialog", attrs: { role: "document" } },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _c("div", { staticClass: "modal-header" }, [
+                _c("h5", { staticClass: "modal-title" }, [
+                  _vm._v("Store Admin"),
+                ]),
+                _vm._v(" "),
+                _c("button", {
+                  staticClass: "close",
+                  on: { click: _vm.openModal },
+                }),
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "modal-body" },
+                _vm._l(_vm.messageError, function (item, key) {
+                  return _c("div", {
+                    key: key,
+                    staticClass: "callout callout-danger",
+                    staticStyle: { padding: "5px" },
+                    domProps: { innerHTML: _vm._s(item) },
+                  })
+                }),
+                0
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    on: { click: _vm.closedModal },
+                  },
+                  [_vm._v("\n            Closed\n          ")]
+                ),
+              ]),
+            ]),
+          ]
+        ),
+      ]
+    ),
+  ])
+}
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "content-header" }, [
+      _c("div", { staticClass: "container-fluid" }, [
+        _c("div", { staticClass: "row mb-2" }, [
+          _c("div", { staticClass: "col-sm-6" }, [
+            _c("h1", { staticClass: "m-0 text-dark" }, [_vm._v("Create User")]),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-sm-6" }, [
+            _c("ol", { staticClass: "breadcrumb float-sm-right" }, [
+              _c("li", { staticClass: "breadcrumb-item" }, [
+                _c("a", { attrs: { href: "#" } }, [_vm._v("Home")]),
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "breadcrumb-item active" }, [
+                _vm._v("Create User"),
+              ]),
+            ]),
+          ]),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h3", { staticClass: "card-title" }, [_vm._v("Create User Form")]),
+    ])
+  },
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/user/index.vue?vue&type=template&id=7d77de66&":
 /*!*****************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/user/index.vue?vue&type=template&id=7d77de66& ***!
@@ -97777,7 +98708,10 @@ var render = function () {
             [
               _c(
                 "router-link",
-                { staticClass: "btn btn-info btn-sm", attrs: { to: "/" } },
+                {
+                  staticClass: "btn btn-info btn-sm",
+                  attrs: { to: "/user/create" },
+                },
                 [
                   _vm._v("\n            Add User "),
                   _c("i", { staticClass: "fas fa-user-plus" }),
@@ -97815,6 +98749,21 @@ var render = function () {
                           attrs: { type: "text" },
                           domProps: { value: _vm.FilterSearchUser.name },
                           on: {
+                            keyup: function ($event) {
+                              if (
+                                !$event.type.indexOf("key") &&
+                                _vm._k(
+                                  $event.keyCode,
+                                  "enter",
+                                  13,
+                                  $event.key,
+                                  "Enter"
+                                )
+                              ) {
+                                return null
+                              }
+                              return _vm.getListUsers.apply(null, arguments)
+                            },
                             input: function ($event) {
                               if ($event.target.composing) {
                                 return
@@ -97849,6 +98798,21 @@ var render = function () {
                           attrs: { type: "text" },
                           domProps: { value: _vm.FilterSearchUser.user },
                           on: {
+                            keyup: function ($event) {
+                              if (
+                                !$event.type.indexOf("key") &&
+                                _vm._k(
+                                  $event.keyCode,
+                                  "enter",
+                                  13,
+                                  $event.key,
+                                  "Enter"
+                                )
+                              ) {
+                                return null
+                              }
+                              return _vm.getListUsers.apply(null, arguments)
+                            },
                             input: function ($event) {
                               if ($event.target.composing) {
                                 return
@@ -97883,6 +98847,21 @@ var render = function () {
                           attrs: { type: "email" },
                           domProps: { value: _vm.FilterSearchUser.email },
                           on: {
+                            keyup: function ($event) {
+                              if (
+                                !$event.type.indexOf("key") &&
+                                _vm._k(
+                                  $event.keyCode,
+                                  "enter",
+                                  13,
+                                  $event.key,
+                                  "Enter"
+                                )
+                              ) {
+                                return null
+                              }
+                              return _vm.getListUsers.apply(null, arguments)
+                            },
                             input: function ($event) {
                               if ($event.target.composing) {
                                 return
@@ -97952,6 +98931,15 @@ var render = function () {
                       _c(
                         "button",
                         {
+                          directives: [
+                            {
+                              name: "loading",
+                              rawName: "v-loading.fullscreen.lock",
+                              value: _vm.fullscreenLoading,
+                              expression: "fullscreenLoading",
+                              modifiers: { fullscreen: true, lock: true },
+                            },
+                          ],
                           staticClass: "btn btn-flat btn-info btn-width",
                           on: {
                             click: function ($event) {
@@ -98350,7 +99338,9 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "callout callout-info text-center" }, [
       _c("h5", [
-        _vm._v("\n                    No Data Information In Module Users "),
+        _vm._v(
+          "\n                    No Data Information In Module Users\n                    "
+        ),
         _c("i", { staticClass: "fas fa-info-circle" }),
       ]),
     ])
