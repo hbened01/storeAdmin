@@ -41,6 +41,11 @@ export default new Router({
       path: "/user",
       component: require("./../views/user/index").default,
     },
+    {
+      path: "/user/create",
+      component: require("./../views/user/create").default,
+    },
   ],
   mode: 'history',
+  linkExactActiveClass: 'active',
 });
