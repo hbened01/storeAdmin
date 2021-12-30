@@ -43,7 +43,7 @@
                         <input
                           type="text"
                           class="form-control"
-                          v-model="FilterSearchUser.name"
+                          v-model="fillSearchUser.name"
                           @keyup.enter="getListUsers"
                         />
                       </div>
@@ -54,7 +54,7 @@
                         <input
                           type="text"
                           class="form-control"
-                          v-model="FilterSearchUser.user"
+                          v-model="fillSearchUser.user"
                           @keyup.enter="getListUsers"
                         />
                       </div>
@@ -65,7 +65,7 @@
                         <input
                           type="email"
                           class="form-control"
-                          v-model="FilterSearchUser.email"
+                          v-model="fillSearchUser.email"
                           @keyup.enter="getListUsers"
                         />
                       </div>
@@ -75,7 +75,7 @@
                       <div class="col-md-9">
                         <template>
                           <el-select
-                            v-model="FilterSearchUser.state"
+                            v-model="fillSearchUser.state"
                             placeholder="Select State"
                             clearable
                           >
@@ -139,13 +139,24 @@
                     <tbody>
                       <tr v-for="(item, key) in listUsersPaginated" :key="key">
                         <td>
-                          <span class="user-block">
-                            <img
-                              src="/img/avatar.png"
-                              :alt="item.username"
-                              class="profile-avatar-img img-fluid img-circle"
-                            />
-                          </span>
+                          <template v-if="!item.profile_image">
+                            <span class="user-block">
+                              <img
+                                src="/img/avatar.png"
+                                :alt="item.username"
+                                class="profile-avatar-img img-fluid img-circle"
+                              />
+                            </span>
+                          </template>
+                          <template v-else>
+                            <span class="user-block">
+                              <img
+                                :src="item.profile_image"
+                                :alt="item.username"
+                                class="profile-avatar-img img-fluid img-circle"
+                              />
+                            </span>
+                          </template>
                         </td>
                         <td v-text="item.fullname"></td>
                         <td v-text="item.email"></td>
@@ -165,21 +176,43 @@
                           </template>
                         </td>
                         <td>
-                          <router-link class="btn btn-primary btn-sm" :to="'/'">
-                            <i class="fas fa-folder"></i> View
-                          </router-link>
-                          <router-link class="btn btn-info btn-sm" :to="'/'">
-                            <i class="fas fa-pencil-alt"></i> Edit
-                          </router-link>
-                          <router-link class="btn btn-success btn-sm" :to="'/'">
-                            <i class="fas fa-key"></i> Permit
-                          </router-link>
-                          <router-link class="btn btn-danger btn-sm" :to="'/'">
-                            <i class="fas fa-trash"></i> Inactive
-                          </router-link>
-                          <router-link class="btn btn-success btn-sm" :to="'/'">
-                            <i class="fas fa-check"></i> Active
-                          </router-link>
+                          <template v-if="item.state == 'A'">
+                            <router-link
+                              class="btn btn-flat btn-primary btn-sm"
+                              :to="'/'"
+                            >
+                              <i class="fas fa-folder"></i> View
+                            </router-link>
+                            <router-link
+                              class="btn btn-flat btn-info btn-sm"
+                              :to="{
+                                name: '/user/edit',
+                                params: { id: item.id },
+                              }"
+                            >
+                              <i class="fas fa-pencil-alt"></i> Edit
+                            </router-link>
+                            <router-link
+                              class="btn btn-flat btn-success btn-sm"
+                              :to="'/'"
+                            >
+                              <i class="fas fa-key"></i> Permit
+                            </router-link>
+                            <router-link
+                              class="btn btn-flat btn-danger btn-sm"
+                              :to="'/'"
+                            >
+                              <i class="fas fa-trash"></i> Inactive
+                            </router-link>
+                          </template>
+                          <template v-else>
+                            <router-link
+                              class="btn btn-flat btn-success btn-sm"
+                              :to="'/'"
+                            >
+                              <i class="fas fa-check"></i> Active
+                            </router-link>
+                          </template>
                         </td>
                       </tr>
                     </tbody>
@@ -243,7 +276,7 @@ export default {
     return {
       pageNumber: 0,
       itemsPerPage: 10,
-      FilterSearchUser: {
+      fillSearchUser: {
         name: "",
         user: "",
         email: "",
@@ -301,10 +334,10 @@ export default {
       this.pageNumber = 0;
     },
     clearSearchCriteria() {
-      this.FilterSearchUser.name = "";
-      this.FilterSearchUser.user = "";
-      this.FilterSearchUser.email = "";
-      this.FilterSearchUser.state = "";
+      this.fillSearchUser.name = "";
+      this.fillSearchUser.user = "";
+      this.fillSearchUser.email = "";
+      this.fillSearchUser.state = "";
     },
     clearInboxUsers() {
       this.listUsers = [];
@@ -315,10 +348,10 @@ export default {
       axios
         .get(url, {
           params: {
-            name: this.FilterSearchUser.name,
-            user: this.FilterSearchUser.user,
-            email: this.FilterSearchUser.email,
-            state: this.FilterSearchUser.state,
+            name: this.fillSearchUser.name,
+            user: this.fillSearchUser.user,
+            email: this.fillSearchUser.email,
+            state: this.fillSearchUser.state,
           },
         })
         .then((response) => {

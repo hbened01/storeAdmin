@@ -13,6 +13,7 @@ class UsersController extends Controller
     {
         if (!$request->ajax()) return redirect('/');
 
+        $id = $request->id !== NULL ? $request->id : 0;
         $name = $request->name !== NULL ? $request->name : '';
         $user = $request->user !== NULL ? $request->user : '';
         $email = $request->email !== NULL ? $request->email : '';
@@ -29,9 +30,9 @@ class UsersController extends Controller
 
         $data_query = DB::select(
             '
-                call sp_user_get_list_users (?, ?, ?, ?)
+                call sp_user_get_list_users (?, ?, ?, ?, ?)
             ',
-            [$name, $user, $email, $state]
+            [$id, $name, $user, $email, $state]
         );
 
         return $data_query;
@@ -47,13 +48,45 @@ class UsersController extends Controller
         $user = $request->user !== NULL ? $request->user : '';
         $email = $request->email !== NULL ? $request->email : '';
         $password = $request->password !== NULL ? Hash::make($request->password) : '';
-        $photography = $request->photography !== NULL ? $request->photography : '';
+        $photography = $request->photography !== NULL ? $request->photography : 0;
 
         $data_query = DB::select(
             '
                 call sp_set_register_user (?, ?, ?, ?, ?, ?, ?)
             ',
             [$firstname, $secondname, $lastname, $user, $email, $password, $photography]
+        );
+
+        return true;
+    }
+
+    public function setEditUser(Request $request)
+    {
+        if (!$request->ajax()) return redirect('/');
+
+        $id = $request->id !== NULL ? $request->id : 0;
+        $firstname = $request->firstname !== NULL ? $request->firstname : '';
+        $secondname = $request->secondname !== NULL ? $request->secondname : '';
+        $lastname = $request->lastname !== NULL ? $request->lastname : '';
+        $user = $request->user !== NULL ? $request->user : '';
+        $email = $request->email !== NULL ? $request->email : '';
+        if($request->password !== NULL) {
+            $password = Hash::make($request->password);
+        } else {
+            $password = '';
+        };
+        $photography = $request->photography !== NULL ? $request->photography : 0;
+
+        // dump($id, $firstname, $secondname, $lastname, $user, $email, $password, $photography);
+        // dd($id, $firstname, $secondname, $lastname, $user, $email, $password, $photography);
+        // var_dump($id, $firstname, $secondname, $lastname, $user, $email, $password, $photography);
+        // die();
+
+        $data_query = DB::select(
+            '
+                call sp_set_edit_user (?, ?, ?, ?, ?, ?, ?, ?)
+            ',
+            [$id, $firstname, $secondname, $lastname, $user, $email, $password, $photography]
         );
 
         return true;

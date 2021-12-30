@@ -4,13 +4,13 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Create User</h1>
+            <h1 class="m-0 text-dark">Edit User</h1>
           </div>
           <!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Create User</li>
+              <li class="breadcrumb-item active">Edit User</li>
             </ol>
           </div>
           <!-- /.col -->
@@ -32,7 +32,7 @@
           <div class="container-fluid">
             <div class="card card-info">
               <div class="card-header">
-                <h3 class="card-title">Create User Form</h3>
+                <h3 class="card-title">Edit User ID "{{ $attrs.id }}" Form</h3>
               </div>
               <div class="card-body">
                 <form role="form">
@@ -43,8 +43,8 @@
                         <input
                           type="text"
                           class="form-control"
-                          v-model="fillCreateUser.firstname"
-                          @keyup.enter="setRegisterUser"
+                          v-model="fillEditUser.firstname"
+                          @keyup.enter="setEditUser"
                         />
                       </div>
                     </div>
@@ -54,8 +54,8 @@
                         <input
                           type="text"
                           class="form-control"
-                          v-model="fillCreateUser.secondname"
-                          @keyup.enter="setRegisterUser"
+                          v-model="fillEditUser.secondname"
+                          @keyup.enter="setEditUser"
                         />
                       </div>
                     </div>
@@ -65,8 +65,8 @@
                         <input
                           type="text"
                           class="form-control"
-                          v-model="fillCreateUser.lastname"
-                          @keyup.enter="setRegisterUser"
+                          v-model="fillEditUser.lastname"
+                          @keyup.enter="setEditUser"
                         />
                       </div>
                     </div>
@@ -76,8 +76,8 @@
                         <input
                           type="text"
                           class="form-control"
-                          v-model="fillCreateUser.user"
-                          @keyup.enter="setRegisterUser"
+                          v-model="fillEditUser.user"
+                          @keyup.enter="setEditUser"
                         />
                       </div>
                     </div>
@@ -87,8 +87,8 @@
                         <input
                           type="email"
                           class="form-control"
-                          v-model="fillCreateUser.email"
-                          @keyup.enter="setRegisterUser"
+                          v-model="fillEditUser.email"
+                          @keyup.enter="setEditUser"
                         />
                       </div>
                     </div>
@@ -97,8 +97,8 @@
                       <div class="col-md-9">
                         <el-input
                           placeholder="Please input password"
-                          v-model="fillCreateUser.password"
-                          @keyup.enter="setRegisterUser"
+                          v-model="fillEditUser.password"
+                          @keyup.enter="setEditUser"
                           show-password
                         ></el-input>
                       </div>
@@ -121,10 +121,10 @@
                   <div class="col-md-4 offset-4 style-inline-1">
                     <button
                       class="btn btn-flat btn-info btn-width"
-                      @click.prevent="setRegisterUser"
+                      @click.prevent="setEditUser"
                       v-loading.fullscreen.lock="fullscreenLoading"
                     >
-                      Add New
+                      Update
                     </button>
                     <button
                       class="btn btn-flat btn-default btn-width"
@@ -176,7 +176,8 @@ export default {
   mixins: [],
   data() {
     return {
-      fillCreateUser: {
+      fillEditUser: {
+        idUser: this.$attrs.id,
         firstname: "",
         secondname: "",
         lastname: "",
@@ -201,15 +202,33 @@ export default {
   },
   computed: {},
   methods: {
-    setRegisterUser() {
+    getUserById() {
+      this.fullscreenLoading = true;
+      let url = `/admin/user/getListUsers`;
+      axios
+        .get(url, {
+          params: {
+            id: this.fillEditUser.idUser,
+          },
+        })
+        .then((response) => {
+          this.fullscreenLoading = false;
+          this.fillEditUser.firstname = response.data[0].firstname;
+          this.fillEditUser.secondname = response.data[0].secondname;
+          this.fillEditUser.lastname = response.data[0].lastname;
+          this.fillEditUser.user = response.data[0].username;
+          this.fillEditUser.email = response.data[0].email;
+        });
+    },
+    setEditUser() {
       if (this.validateUserForm()) {
         this.modalShow = true;
         return true;
       }
       this.fullscreenLoading = true;
       if (
-        !this.fillCreateUser.photography ||
-        this.fillCreateUser.photography == undefined
+        !this.fillEditUser.photography ||
+        this.fillEditUser.photography == undefined
       ) {
         this.setSaveUser();
       } else {
@@ -217,7 +236,7 @@ export default {
       }
     },
     setRegisterFile() {
-      this.form.append("file", this.fillCreateUser?.photography);
+      this.form.append("file", this.fillEditUser?.photography);
       const config = { headers: { "content-type": "multiport/form-data" } };
       const url = "/file/setRegisterFile";
       axios.post(url, this.form, config).then((response) => {
@@ -226,24 +245,30 @@ export default {
       });
     },
     setSaveUser(idFile = null) {
-      const url = "/admin/user/setRegisterUser";
+      const url = "/admin/user/setEditUser";
       axios
         .post(url, {
-          firstname: this.fillCreateUser?.firstname,
-          secondname: this.fillCreateUser?.secondname,
-          lastname: this.fillCreateUser?.lastname,
-          user: this.fillCreateUser?.user,
-          email: this.fillCreateUser?.email,
-          password: this.fillCreateUser?.password,
+          id: this.fillEditUser?.idUser,
+          firstname: this.fillEditUser?.firstname,
+          secondname: this.fillEditUser?.secondname,
+          lastname: this.fillEditUser?.lastname,
+          user: this.fillEditUser?.user,
+          email: this.fillEditUser?.email,
+          password: this.fillEditUser?.password,
           photography: idFile,
         })
         .then((response) => {
           this.fullscreenLoading = false;
-          this.$router.push('/user');
+          Swal.fire({
+            icon: "success",
+            title: "Update user successfully!!",
+            showConfirmButton: false,
+            timer: 1500,
+          });
         });
     },
     getFile(e) {
-      this.fillCreateUser.photography = e.target.files[0];
+      this.fillEditUser.photography = e.target.files[0];
     },
     openModal() {
       this.modalShow = !this.modalShow;
@@ -254,41 +279,38 @@ export default {
     validateUserForm() {
       this.error = 0;
       this.messageError = [];
-      if (!this.fillCreateUser?.firstname) {
+      if (!this.fillEditUser?.firstname) {
         this.messageError.push('"Firts Name" <strong>is obligatory</strong>');
       }
-      if (!this.fillCreateUser?.secondname) {
+      if (!this.fillEditUser?.secondname) {
         this.messageError.push('"Second Name" <strong>is obligatory</strong>');
       }
-      if (!this.fillCreateUser?.lastname) {
+      if (!this.fillEditUser?.lastname) {
         this.messageError.push('"Last Name" <strong>is obligatory</strong>');
       }
-      if (!this.fillCreateUser?.user) {
+      if (!this.fillEditUser?.user) {
         this.messageError.push('"User" <strong>is obligatory</strong>');
       }
-      if (!this.fillCreateUser?.email) {
+      if (!this.fillEditUser?.email) {
         this.messageError.push('"Email" <strong>is obligatory</strong>');
-      }
-      if (!this.fillCreateUser?.password) {
-        this.messageError.push('"Password" <strong>is obligatory</strong>');
-      }
-      if (!this.fillCreateUser?.photography) {
-        this.messageError.push('"Password" <strong>is obligatory</strong>');
       }
       if (this.messageError.length) {
         this.error = 1;
       }
       return this.error;
     },
+    clearFormUser() {
+      this.fillEditUser.firstname = "";
+      this.fillEditUser.secondname = "";
+      this.fillEditUser.lastname = "";
+      this.fillEditUser.user = "";
+      this.fillEditUser.email = "";
+      this.fillEditUser.password = "";
+      this.fillEditUser.photography = "";
+    },
   },
-  clearFormUser() {
-    this.fillCreateUser.firstname = '';
-    this.fillCreateUser.secondname = '';
-    this.fillCreateUser.lastname = '';
-    this.fillCreateUser.user = '';
-    this.fillCreateUser.email = '';
-    this.fillCreateUser.password = '';
-    this.fillCreateUser.photography = '';
+  mounted() {
+    this.getUserById();
   },
 };
 </script>

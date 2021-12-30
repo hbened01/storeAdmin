@@ -23,6 +23,7 @@ Route::get('/', function () {
 
 Route::get('/admin/user/getListUsers', 'App\Http\Controllers\Admin\UsersController@getListUsers');
 Route::post('/admin/user/setRegisterUser', 'App\Http\Controllers\Admin\UsersController@setRegisterUser');
+Route::post('/admin/user/setEditUser', 'App\Http\Controllers\Admin\UsersController@setEditUser');
 
 Route::post('/file/setRegisterFile', 'App\Http\Controllers\FilesController@setRegisterFile');
 
