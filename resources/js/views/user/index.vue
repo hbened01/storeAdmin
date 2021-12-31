@@ -179,7 +179,10 @@
                           <template v-if="item.state == 'A'">
                             <router-link
                               class="btn btn-flat btn-primary btn-sm"
-                              :to="'/'"
+                              :to="{
+                                name: '/user/view',
+                                params: { id: item.id },
+                              }"
                             >
                               <i class="fas fa-folder"></i> View
                             </router-link>
@@ -361,10 +364,8 @@ export default {
           let url = `/admin/user/setChangeStatusUser`;
           axios
             .post(url, {
-              params: {
-                id,
-                state: op ? "A" : "I",
-              },
+              id,
+              state: op ? "A" : "I",
             })
             .then((response) => {
               Swal.fire({
@@ -375,8 +376,10 @@ export default {
                 showConfirmButton: false,
                 timer: 1500,
               });
+            })
+            .finally(() => {
+              this.getListUsers();
             });
-          this.getListUsers();
         }
       });
     },
@@ -398,6 +401,9 @@ export default {
           this.fullscreenLoading = false;
         });
     },
+  },
+  mounted() {
+    this.getListUsers();
   },
 };
 </script>

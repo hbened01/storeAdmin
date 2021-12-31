@@ -477,3 +477,7 @@ html.os-html,html.os-html>.os-host{display:block;overflow:hidden;box-sizing:bord
 .el-select {
     width: 100%;
 }
+
+.button-full {
+    width: 100%;
+}
