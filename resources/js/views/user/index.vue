@@ -198,20 +198,24 @@
                             >
                               <i class="fas fa-key"></i> Permit
                             </router-link>
-                            <router-link
+                            <button
                               class="btn btn-flat btn-danger btn-sm"
-                              :to="'/'"
+                              @click.prevent="
+                                setChangeStatusUser(false, item.id)
+                              "
                             >
                               <i class="fas fa-trash"></i> Inactive
-                            </router-link>
+                            </button>
                           </template>
                           <template v-else>
-                            <router-link
+                            <button
                               class="btn btn-flat btn-success btn-sm"
-                              :to="'/'"
+                              @click.prevent="
+                                setChangeStatusUser(true, item.id)
+                              "
                             >
                               <i class="fas fa-check"></i> Active
-                            </router-link>
+                            </button>
                           </template>
                         </td>
                       </tr>
@@ -341,6 +345,40 @@ export default {
     },
     clearInboxUsers() {
       this.listUsers = [];
+    },
+    setChangeStatusUser(op, id) {
+      Swal.fire({
+        title: `Are you sure ${op ? "active" : "inactive"} the user?`,
+        // text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: `Yes ${op ? "active" : "inactive"} user!!`,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          //   Swal.fire("Deleted!", "Your file has been deleted.", "success");
+          let url = `/admin/user/setChangeStatusUser`;
+          axios
+            .post(url, {
+              params: {
+                id,
+                state: op ? "A" : "I",
+              },
+            })
+            .then((response) => {
+              Swal.fire({
+                icon: "success",
+                title: `Update ${
+                  op ? "active" : "inactive"
+                } user successfully!!`,
+                showConfirmButton: false,
+                timer: 1500,
+              });
+            });
+          this.getListUsers();
+        }
+      });
     },
     getListUsers() {
       this.fullscreenLoading = true;
