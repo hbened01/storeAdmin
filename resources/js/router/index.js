@@ -51,6 +51,12 @@ export default new Router({
             component: require("./../views/user/edit").default,
             props: true,
         },
+        {
+            path: "/user/view/:id",
+            name: "/user/view",
+            component: require("./../views/user/view").default,
+            props: true,
+        },
     ],
     mode: 'history',
     linkActiveClass: 'active',

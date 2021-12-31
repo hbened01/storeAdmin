@@ -8750,6 +8750,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Users",
   props: {},
@@ -8839,10 +8842,8 @@ __webpack_require__.r(__webpack_exports__);
           //   Swal.fire("Deleted!", "Your file has been deleted.", "success");
           var url = "/admin/user/setChangeStatusUser";
           axios.post(url, {
-            params: {
-              id: id,
-              state: op ? "A" : "I"
-            }
+            id: id,
+            state: op ? "A" : "I"
           }).then(function (response) {
             Swal.fire({
               icon: "success",
@@ -8850,9 +8851,9 @@ __webpack_require__.r(__webpack_exports__);
               showConfirmButton: false,
               timer: 1500
             });
+          })["finally"](function () {
+            _this.getListUsers();
           });
-
-          _this.getListUsers();
         }
       });
     },
@@ -8875,6 +8876,427 @@ __webpack_require__.r(__webpack_exports__);
         _this2.fullscreenLoading = false;
       });
     }
+  },
+  mounted: function mounted() {
+    this.getListUsers();
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/user/view.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/user/view.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      fillEditUser: {
+        idUser: this.$attrs.id,
+        firstname: "",
+        secondname: "",
+        lastname: "",
+        user: "",
+        email: "",
+        password: "",
+        photography: "",
+        profileImage: ""
+      },
+      fillViewUser: {
+        idUser: this.$attrs.id,
+        firstname: "",
+        secondname: "",
+        lastname: "",
+        user: "",
+        email: "",
+        password: "",
+        photography: "",
+        profileImage: ""
+      },
+      modalShow: false,
+      viewModal: {
+        display: "block",
+        background: "#00000006b"
+      },
+      hideModal: {
+        display: "none"
+      },
+      error: 0,
+      messageError: [],
+      form: new FormData(),
+      fullscreenLoading: false
+    };
+  },
+  computed: {
+    getFullName: function getFullName() {
+      var _this$fillViewUser, _this$fillViewUser2, _this$fillViewUser3;
+
+      return ((_this$fillViewUser = this.fillViewUser) === null || _this$fillViewUser === void 0 ? void 0 : _this$fillViewUser.firstname) + "" + ((_this$fillViewUser2 = this.fillViewUser) === null || _this$fillViewUser2 === void 0 ? void 0 : _this$fillViewUser2.secondname) + "" + ((_this$fillViewUser3 = this.fillViewUser) === null || _this$fillViewUser3 === void 0 ? void 0 : _this$fillViewUser3.lastname);
+    }
+  },
+  methods: {
+    getUserById: function getUserById() {
+      var _this = this;
+
+      this.fullscreenLoading = true;
+      var url = "/admin/user/getListUsers";
+      axios.get(url, {
+        params: {
+          id: this.fillEditUser.idUser
+        }
+      }).then(function (response) {
+        _this.fullscreenLoading = false;
+
+        _this.getUserEdit(response.data[0]);
+
+        _this.getUserView(response.data[0]);
+      });
+    },
+    getUserEdit: function getUserEdit(data) {
+      this.fillEditUser.firstname = data.firstname;
+      this.fillEditUser.secondname = data.secondname;
+      this.fillEditUser.lastname = data.lastname;
+      this.fillEditUser.user = data.username;
+      this.fillEditUser.email = data.email;
+      this.fillEditUser.profileImage = data.profile_image;
+    },
+    getUserView: function getUserView(data) {
+      this.fillViewUser.firstname = data.firstname;
+      this.fillViewUser.secondname = data.secondname;
+      this.fillViewUser.lastname = data.lastname;
+      this.fillViewUser.user = data.username;
+      this.fillViewUser.email = data.email;
+      this.fillViewUser.profileImage = data.profile_image;
+    },
+    openModal: function openModal() {
+      this.modalShow = !this.modalShow;
+    },
+    closedModal: function closedModal() {
+      this.modalShow = !this.modalShow;
+    },
+    setEditUser: function setEditUser() {
+      if (this.validateUserForm()) {
+        this.modalShow = true;
+        return true;
+      }
+
+      this.fullscreenLoading = true;
+
+      if (!this.fillEditUser.photography || this.fillEditUser.photography == undefined) {
+        this.setSaveUser();
+      } else {
+        this.setRegisterFile();
+      }
+    },
+    setRegisterFile: function setRegisterFile() {
+      var _this$fillEditUser,
+          _this2 = this;
+
+      this.form.append("file", (_this$fillEditUser = this.fillEditUser) === null || _this$fillEditUser === void 0 ? void 0 : _this$fillEditUser.photography);
+      var config = {
+        headers: {
+          "content-type": "multiport/form-data"
+        }
+      };
+      var url = "/file/setRegisterFile";
+      axios.post(url, this.form, config).then(function (response) {
+        var _response$data$;
+
+        var idFile = response === null || response === void 0 ? void 0 : (_response$data$ = response.data[0]) === null || _response$data$ === void 0 ? void 0 : _response$data$.idFile;
+
+        _this2.setSaveUser(idFile);
+      });
+    },
+    setSaveUser: function setSaveUser() {
+      var _this$fillEditUser2,
+          _this$fillEditUser3,
+          _this$fillEditUser4,
+          _this$fillEditUser5,
+          _this$fillEditUser6,
+          _this$fillEditUser7,
+          _this$fillEditUser8,
+          _this3 = this;
+
+      var idFile = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+      var url = "/admin/user/setEditUser";
+      axios.post(url, {
+        id: (_this$fillEditUser2 = this.fillEditUser) === null || _this$fillEditUser2 === void 0 ? void 0 : _this$fillEditUser2.idUser,
+        firstname: (_this$fillEditUser3 = this.fillEditUser) === null || _this$fillEditUser3 === void 0 ? void 0 : _this$fillEditUser3.firstname,
+        secondname: (_this$fillEditUser4 = this.fillEditUser) === null || _this$fillEditUser4 === void 0 ? void 0 : _this$fillEditUser4.secondname,
+        lastname: (_this$fillEditUser5 = this.fillEditUser) === null || _this$fillEditUser5 === void 0 ? void 0 : _this$fillEditUser5.lastname,
+        user: (_this$fillEditUser6 = this.fillEditUser) === null || _this$fillEditUser6 === void 0 ? void 0 : _this$fillEditUser6.user,
+        email: (_this$fillEditUser7 = this.fillEditUser) === null || _this$fillEditUser7 === void 0 ? void 0 : _this$fillEditUser7.email,
+        password: (_this$fillEditUser8 = this.fillEditUser) === null || _this$fillEditUser8 === void 0 ? void 0 : _this$fillEditUser8.password,
+        photography: idFile
+      }).then(function (response) {
+        _this3.fullscreenLoading = false;
+
+        _this3.getUserById();
+
+        Swal.fire({
+          icon: "success",
+          title: "Update user successfully!!",
+          showConfirmButton: false,
+          timer: 1500
+        });
+      });
+    },
+    getFile: function getFile(e) {
+      this.fillEditUser.photography = e.target.files[0];
+    },
+    validateUserForm: function validateUserForm() {
+      var _this$fillEditUser9, _this$fillEditUser10, _this$fillEditUser11, _this$fillEditUser12, _this$fillEditUser13;
+
+      this.error = 0;
+      this.messageError = [];
+
+      if (!((_this$fillEditUser9 = this.fillEditUser) !== null && _this$fillEditUser9 !== void 0 && _this$fillEditUser9.firstname)) {
+        this.messageError.push('"Firts Name" <strong>is obligatory</strong>');
+      }
+
+      if (!((_this$fillEditUser10 = this.fillEditUser) !== null && _this$fillEditUser10 !== void 0 && _this$fillEditUser10.secondname)) {
+        this.messageError.push('"Second Name" <strong>is obligatory</strong>');
+      }
+
+      if (!((_this$fillEditUser11 = this.fillEditUser) !== null && _this$fillEditUser11 !== void 0 && _this$fillEditUser11.lastname)) {
+        this.messageError.push('"Last Name" <strong>is obligatory</strong>');
+      }
+
+      if (!((_this$fillEditUser12 = this.fillEditUser) !== null && _this$fillEditUser12 !== void 0 && _this$fillEditUser12.user)) {
+        this.messageError.push('"User" <strong>is obligatory</strong>');
+      }
+
+      if (!((_this$fillEditUser13 = this.fillEditUser) !== null && _this$fillEditUser13 !== void 0 && _this$fillEditUser13.email)) {
+        this.messageError.push('"Email" <strong>is obligatory</strong>');
+      }
+
+      if (this.messageError.length) {
+        this.error = 1;
+      }
+
+      return this.error;
+    }
+  },
+  mounted: function mounted() {
+    this.getUserById();
   }
 });
 
@@ -9024,6 +9446,11 @@ vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vue_router__WEBPACK_IMPORTED_MOD
     path: "/user/edit/:id",
     name: "/user/edit",
     component: (__webpack_require__(/*! ./../views/user/edit */ "./resources/js/views/user/edit.vue")["default"]),
+    props: true
+  }, {
+    path: "/user/view/:id",
+    name: "/user/view",
+    component: (__webpack_require__(/*! ./../views/user/view */ "./resources/js/views/user/view.vue")["default"]),
     props: true
   }],
   mode: 'history',
@@ -100277,6 +100704,45 @@ component.options.__file = "resources/js/views/user/index.vue"
 
 /***/ }),
 
+/***/ "./resources/js/views/user/view.vue":
+/*!******************************************!*\
+  !*** ./resources/js/views/user/view.vue ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _view_vue_vue_type_template_id_67c64bfa___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./view.vue?vue&type=template&id=67c64bfa& */ "./resources/js/views/user/view.vue?vue&type=template&id=67c64bfa&");
+/* harmony import */ var _view_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./view.vue?vue&type=script&lang=js& */ "./resources/js/views/user/view.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _view_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _view_vue_vue_type_template_id_67c64bfa___WEBPACK_IMPORTED_MODULE_0__.render,
+  _view_vue_vue_type_template_id_67c64bfa___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/views/user/view.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/App.vue?vue&type=script&lang=js&":
 /*!******************************************************************!*\
   !*** ./resources/js/components/App.vue?vue&type=script&lang=js& ***!
@@ -100514,6 +100980,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./index.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/user/index.vue?vue&type=script&lang=js&");
  /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/views/user/view.vue?vue&type=script&lang=js&":
+/*!*******************************************************************!*\
+  !*** ./resources/js/views/user/view.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_view_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./view.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/user/view.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_view_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
@@ -100768,6 +101250,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_template_id_7d77de66___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_template_id_7d77de66___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./index.vue?vue&type=template&id=7d77de66& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/user/index.vue?vue&type=template&id=7d77de66&");
+
+
+/***/ }),
+
+/***/ "./resources/js/views/user/view.vue?vue&type=template&id=67c64bfa&":
+/*!*************************************************************************!*\
+  !*** ./resources/js/views/user/view.vue?vue&type=template&id=67c64bfa& ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_view_vue_vue_type_template_id_67c64bfa___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_view_vue_vue_type_template_id_67c64bfa___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_view_vue_vue_type_template_id_67c64bfa___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./view.vue?vue&type=template&id=67c64bfa& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/user/view.vue?vue&type=template&id=67c64bfa&");
 
 
 /***/ }),
@@ -103415,7 +103914,12 @@ var render = function () {
                                                 {
                                                   staticClass:
                                                     "btn btn-flat btn-primary btn-sm",
-                                                  attrs: { to: "/" },
+                                                  attrs: {
+                                                    to: {
+                                                      name: "/user/view",
+                                                      params: { id: item.id },
+                                                    },
+                                                  },
                                                 },
                                                 [
                                                   _c("i", {
@@ -103705,6 +104209,592 @@ var staticRenderFns = [
           "\n                    No Data Information In Module Users\n                    "
         ),
         _c("i", { staticClass: "fas fa-info-circle" }),
+      ]),
+    ])
+  },
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/user/view.vue?vue&type=template&id=67c64bfa&":
+/*!****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/user/view.vue?vue&type=template&id=67c64bfa& ***!
+  \****************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "content container-fluid" }, [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-md-3" }, [
+          _c("div", { staticClass: "card card-primary card-outline" }, [
+            _c("div", { staticClass: "card-body box-profile" }, [
+              _c(
+                "div",
+                { staticClass: "text-center" },
+                [
+                  !_vm.fillViewUser.profileImage
+                    ? [
+                        _c("img", {
+                          staticClass: "profile-user-img img-fluid img-circle",
+                          attrs: {
+                            src: "/img/avatar.png",
+                            alt: _vm.getFullName,
+                          },
+                        }),
+                      ]
+                    : [
+                        _c("img", {
+                          staticClass: "profile-user-img img-fluid img-circle",
+                          attrs: {
+                            src: _vm.fillViewUser.profileImage,
+                            alt: _vm.getFullName,
+                          },
+                        }),
+                      ],
+                ],
+                2
+              ),
+              _vm._v(" "),
+              _c("h3", { staticClass: "profile-username text-center" }, [
+                _vm._v(_vm._s(_vm.getFullName)),
+              ]),
+              _vm._v(" "),
+              _c("p", { staticClass: "text-muted text-center" }, [
+                _vm._v("Software Engineer"),
+              ]),
+            ]),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card card-primary" }, [
+            _vm._m(1),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-body" }, [
+              _vm._m(2),
+              _vm._v(" "),
+              _c("p", {
+                staticClass: "text-muted",
+                domProps: { textContent: _vm._s(_vm.getFullName) },
+              }),
+              _vm._v(" "),
+              _c("hr"),
+              _vm._v(" "),
+              _vm._m(3),
+              _vm._v(" "),
+              _c("p", {
+                staticClass: "text-muted",
+                domProps: { textContent: _vm._s(_vm.fillViewUser.email) },
+              }),
+            ]),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-9" }, [
+          _c("div", { staticClass: "card" }, [
+            _vm._m(4),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-body" }, [
+              _c("div", { staticClass: "tab-content" }, [
+                _c(
+                  "div",
+                  { staticClass: "tab-pane active", attrs: { id: "settings" } },
+                  [
+                    _c("form", { staticClass: "form-horizontal" }, [
+                      _c("div", { staticClass: "form-group row" }, [
+                        _c(
+                          "label",
+                          { staticClass: "col-md-4 col-form-label" },
+                          [_vm._v("First Name")]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-8" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.fillEditUser.firstname,
+                                expression: "fillEditUser.firstname",
+                              },
+                            ],
+                            staticClass: "form-control",
+                            attrs: { type: "text" },
+                            domProps: { value: _vm.fillEditUser.firstname },
+                            on: {
+                              keyup: function ($event) {
+                                if (
+                                  !$event.type.indexOf("key") &&
+                                  _vm._k(
+                                    $event.keyCode,
+                                    "enter",
+                                    13,
+                                    $event.key,
+                                    "Enter"
+                                  )
+                                ) {
+                                  return null
+                                }
+                                return _vm.setEditUser.apply(null, arguments)
+                              },
+                              input: function ($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.fillEditUser,
+                                  "firstname",
+                                  $event.target.value
+                                )
+                              },
+                            },
+                          }),
+                        ]),
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group row" }, [
+                        _c(
+                          "label",
+                          { staticClass: "col-md-4 col-form-label" },
+                          [_vm._v("Second Name")]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-8" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.fillEditUser.secondname,
+                                expression: "fillEditUser.secondname",
+                              },
+                            ],
+                            staticClass: "form-control",
+                            attrs: { type: "text" },
+                            domProps: { value: _vm.fillEditUser.secondname },
+                            on: {
+                              keyup: function ($event) {
+                                if (
+                                  !$event.type.indexOf("key") &&
+                                  _vm._k(
+                                    $event.keyCode,
+                                    "enter",
+                                    13,
+                                    $event.key,
+                                    "Enter"
+                                  )
+                                ) {
+                                  return null
+                                }
+                                return _vm.setEditUser.apply(null, arguments)
+                              },
+                              input: function ($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.fillEditUser,
+                                  "secondname",
+                                  $event.target.value
+                                )
+                              },
+                            },
+                          }),
+                        ]),
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group row" }, [
+                        _c(
+                          "label",
+                          { staticClass: "col-md-4 col-form-label" },
+                          [_vm._v("Last Name")]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-8" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.fillEditUser.lastname,
+                                expression: "fillEditUser.lastname",
+                              },
+                            ],
+                            staticClass: "form-control",
+                            attrs: { type: "text" },
+                            domProps: { value: _vm.fillEditUser.lastname },
+                            on: {
+                              keyup: function ($event) {
+                                if (
+                                  !$event.type.indexOf("key") &&
+                                  _vm._k(
+                                    $event.keyCode,
+                                    "enter",
+                                    13,
+                                    $event.key,
+                                    "Enter"
+                                  )
+                                ) {
+                                  return null
+                                }
+                                return _vm.setEditUser.apply(null, arguments)
+                              },
+                              input: function ($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.fillEditUser,
+                                  "lastname",
+                                  $event.target.value
+                                )
+                              },
+                            },
+                          }),
+                        ]),
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group row" }, [
+                        _c(
+                          "label",
+                          { staticClass: "col-md-4 col-form-label" },
+                          [_vm._v("User")]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-8" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.fillEditUser.user,
+                                expression: "fillEditUser.user",
+                              },
+                            ],
+                            staticClass: "form-control",
+                            attrs: { type: "text" },
+                            domProps: { value: _vm.fillEditUser.user },
+                            on: {
+                              keyup: function ($event) {
+                                if (
+                                  !$event.type.indexOf("key") &&
+                                  _vm._k(
+                                    $event.keyCode,
+                                    "enter",
+                                    13,
+                                    $event.key,
+                                    "Enter"
+                                  )
+                                ) {
+                                  return null
+                                }
+                                return _vm.setEditUser.apply(null, arguments)
+                              },
+                              input: function ($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.fillEditUser,
+                                  "user",
+                                  $event.target.value
+                                )
+                              },
+                            },
+                          }),
+                        ]),
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group row" }, [
+                        _c(
+                          "label",
+                          { staticClass: "col-md-4 col-form-label" },
+                          [_vm._v("Email")]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-8" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.fillEditUser.email,
+                                expression: "fillEditUser.email",
+                              },
+                            ],
+                            staticClass: "form-control",
+                            attrs: { type: "email" },
+                            domProps: { value: _vm.fillEditUser.email },
+                            on: {
+                              keyup: function ($event) {
+                                if (
+                                  !$event.type.indexOf("key") &&
+                                  _vm._k(
+                                    $event.keyCode,
+                                    "enter",
+                                    13,
+                                    $event.key,
+                                    "Enter"
+                                  )
+                                ) {
+                                  return null
+                                }
+                                return _vm.setEditUser.apply(null, arguments)
+                              },
+                              input: function ($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.fillEditUser,
+                                  "email",
+                                  $event.target.value
+                                )
+                              },
+                            },
+                          }),
+                        ]),
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group row" }, [
+                        _c(
+                          "label",
+                          { staticClass: "col-md-4 col-form-label" },
+                          [_vm._v("Password")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "col-md-8" },
+                          [
+                            _c("el-input", {
+                              attrs: {
+                                placeholder: "Please input password",
+                                "show-password": "",
+                              },
+                              on: {
+                                keyup: function ($event) {
+                                  if (
+                                    !$event.type.indexOf("key") &&
+                                    _vm._k(
+                                      $event.keyCode,
+                                      "enter",
+                                      13,
+                                      $event.key,
+                                      "Enter"
+                                    )
+                                  ) {
+                                    return null
+                                  }
+                                  return _vm.setEditUser.apply(null, arguments)
+                                },
+                              },
+                              model: {
+                                value: _vm.fillEditUser.password,
+                                callback: function ($$v) {
+                                  _vm.$set(_vm.fillEditUser, "password", $$v)
+                                },
+                                expression: "fillEditUser.password",
+                              },
+                            }),
+                          ],
+                          1
+                        ),
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group row" }, [
+                        _c(
+                          "label",
+                          { staticClass: "col-md-4 col-form-label" },
+                          [_vm._v("Photography")]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-8" }, [
+                          _c("input", {
+                            staticClass: "form-control",
+                            attrs: { type: "file" },
+                            on: { change: _vm.getFile },
+                          }),
+                        ]),
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group row" }, [
+                        _c("div", { staticClass: "col-sm-12" }, [
+                          _c(
+                            "button",
+                            {
+                              directives: [
+                                {
+                                  name: "loading",
+                                  rawName: "v-loading.fullscreen.lock",
+                                  value: _vm.fullscreenLoading,
+                                  expression: "fullscreenLoading",
+                                  modifiers: { fullscreen: true, lock: true },
+                                },
+                              ],
+                              staticClass:
+                                "btn btn-flat btn-info btn-width button-full",
+                              on: {
+                                click: function ($event) {
+                                  $event.preventDefault()
+                                  return _vm.setEditUser.apply(null, arguments)
+                                },
+                              },
+                            },
+                            [
+                              _vm._v(
+                                "\n                        Update\n                      "
+                              ),
+                            ]
+                          ),
+                        ]),
+                      ]),
+                    ]),
+                  ]
+                ),
+              ]),
+            ]),
+          ]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          class: ["modal", "fade", { show: _vm.modalShow }],
+          style: _vm.modalShow ? _vm.viewModal : _vm.hideModal,
+        },
+        [
+          _c(
+            "div",
+            { staticClass: "modal-dialog", attrs: { role: "document" } },
+            [
+              _c("div", { staticClass: "modal-content" }, [
+                _c("div", { staticClass: "modal-header" }, [
+                  _c("h5", { staticClass: "modal-title" }, [
+                    _vm._v("Store Admin"),
+                  ]),
+                  _vm._v(" "),
+                  _c("button", {
+                    staticClass: "close",
+                    on: { click: _vm.openModal },
+                  }),
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "modal-body" },
+                  _vm._l(_vm.messageError, function (item, key) {
+                    return _c("div", {
+                      key: key,
+                      staticClass: "callout callout-danger",
+                      staticStyle: { padding: "5px" },
+                      domProps: { innerHTML: _vm._s(item) },
+                    })
+                  }),
+                  0
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "modal-footer" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-secondary",
+                      on: { click: _vm.closedModal },
+                    },
+                    [_vm._v("\n              Closed\n            ")]
+                  ),
+                ]),
+              ]),
+            ]
+          ),
+        ]
+      ),
+    ]),
+  ])
+}
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "content-header" }, [
+      _c("div", { staticClass: "container-fluid" }, [
+        _c("div", { staticClass: "row mb-2" }, [
+          _c("div", { staticClass: "col-sm-6" }, [
+            _c("h1", { staticClass: "m-0 text-dark" }, [_vm._v("Users")]),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-sm-6" }, [
+            _c("ol", { staticClass: "breadcrumb float-sm-right" }, [
+              _c("li", { staticClass: "breadcrumb-item" }, [
+                _c("a", { attrs: { href: "#" } }, [_vm._v("Home")]),
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "breadcrumb-item active" }, [
+                _vm._v("Users"),
+              ]),
+            ]),
+          ]),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h3", { staticClass: "card-title" }, [_vm._v("About Me")]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("strong", [
+      _c("i", { staticClass: "fab fa-mailchimp" }),
+      _vm._v(" Full Name"),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("strong", [
+      _c("i", { staticClass: "fas fa-envelope-square" }),
+      _vm._v(" Email"),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header p-2" }, [
+      _c("ul", { staticClass: "nav nav-pills" }, [
+        _c("li", { staticClass: "nav-item" }, [
+          _c(
+            "a",
+            {
+              staticClass: "nav-link active",
+              attrs: { href: "#settings", "data-toggle": "tab" },
+            },
+            [_vm._v("Settings")]
+          ),
+        ]),
       ]),
     ])
   },

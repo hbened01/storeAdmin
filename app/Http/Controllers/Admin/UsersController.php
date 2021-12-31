@@ -99,6 +99,8 @@ class UsersController extends Controller
         $id = $request->id !== NULL ? $request->id : 0;
         $state = $request->state !== NULL ? $request->state : '';
 
+        // die(var_dump($id, $state));
+
         $data_query = DB::select(
             '
                 call sp_set_change_state_user (?, ?)
