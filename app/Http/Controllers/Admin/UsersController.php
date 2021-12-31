@@ -91,4 +91,22 @@ class UsersController extends Controller
 
         return true;
     }
+
+    public function setChangeStatusUser(Request $request)
+    {
+        if (!$request->ajax()) return redirect('/');
+
+        $id = $request->id !== NULL ? $request->id : 0;
+        $state = $request->state !== NULL ? $request->state : '';
+
+        $data_query = DB::select(
+            '
+                call sp_set_change_state_user (?, ?)
+            ',
+            [$id, $state]
+        );
+
+        return true;
+
+    }
 }

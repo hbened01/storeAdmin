@@ -8746,6 +8746,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Users",
   props: {},
@@ -8819,8 +8823,41 @@ __webpack_require__.r(__webpack_exports__);
     clearInboxUsers: function clearInboxUsers() {
       this.listUsers = [];
     },
-    getListUsers: function getListUsers() {
+    setChangeStatusUser: function setChangeStatusUser(op, id) {
       var _this = this;
+
+      Swal.fire({
+        title: "Are you sure ".concat(op ? "active" : "inactive", " the user?"),
+        // text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes ".concat(op ? "active" : "inactive", " user!!")
+      }).then(function (result) {
+        if (result.isConfirmed) {
+          //   Swal.fire("Deleted!", "Your file has been deleted.", "success");
+          var url = "/admin/user/setChangeStatusUser";
+          axios.post(url, {
+            params: {
+              id: id,
+              state: op ? "A" : "I"
+            }
+          }).then(function (response) {
+            Swal.fire({
+              icon: "success",
+              title: "Update ".concat(op ? "active" : "inactive", " user successfully!!"),
+              showConfirmButton: false,
+              timer: 1500
+            });
+          });
+
+          _this.getListUsers();
+        }
+      });
+    },
+    getListUsers: function getListUsers() {
+      var _this2 = this;
 
       this.fullscreenLoading = true;
       var url = "/admin/user/getListUsers";
@@ -8832,10 +8869,10 @@ __webpack_require__.r(__webpack_exports__);
           state: this.fillSearchUser.state
         }
       }).then(function (response) {
-        _this.initializePagination();
+        _this2.initializePagination();
 
-        _this.listUsers = response.data;
-        _this.fullscreenLoading = false;
+        _this2.listUsers = response.data;
+        _this2.fullscreenLoading = false;
       });
     }
   }
@@ -103432,11 +103469,19 @@ var render = function () {
                                               ),
                                               _vm._v(" "),
                                               _c(
-                                                "router-link",
+                                                "button",
                                                 {
                                                   staticClass:
                                                     "btn btn-flat btn-danger btn-sm",
-                                                  attrs: { to: "/" },
+                                                  on: {
+                                                    click: function ($event) {
+                                                      $event.preventDefault()
+                                                      return _vm.setChangeStatusUser(
+                                                        false,
+                                                        item.id
+                                                      )
+                                                    },
+                                                  },
                                                 },
                                                 [
                                                   _c("i", {
@@ -103450,11 +103495,19 @@ var render = function () {
                                             ]
                                           : [
                                               _c(
-                                                "router-link",
+                                                "button",
                                                 {
                                                   staticClass:
                                                     "btn btn-flat btn-success btn-sm",
-                                                  attrs: { to: "/" },
+                                                  on: {
+                                                    click: function ($event) {
+                                                      $event.preventDefault()
+                                                      return _vm.setChangeStatusUser(
+                                                        true,
+                                                        item.id
+                                                      )
+                                                    },
+                                                  },
                                                 },
                                                 [
                                                   _c("i", {
