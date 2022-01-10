@@ -27,18 +27,18 @@
             <div class="card-body box-profile">
               <div class="text-center">
                 <template v-if="!fillViewUser.profileImage">
-                    <img
-                      src="/img/avatar.png"
-                      :alt="getFullName"
-                      class="profile-user-img img-fluid img-circle"
-                    />
+                  <img
+                    src="/img/avatar.png"
+                    :alt="getFullName"
+                    class="profile-user-img img-fluid img-circle img-max-height"
+                  />
                 </template>
                 <template v-else>
-                    <img
-                      :src="fillViewUser.profileImage"
-                      :alt="getFullName"
-                      class="profile-user-img img-fluid img-circle"
-                    />
+                  <img
+                    :src="fillViewUser.profileImage"
+                    :alt="getFullName"
+                    class="profile-user-img img-fluid img-circle img-max-height"
+                  />
                 </template>
               </div>
               <h3 class="profile-username text-center">{{ getFullName }}</h3>
@@ -67,10 +67,10 @@
         <div class="col-md-9">
           <div class="card">
             <div class="card-header p-2">
-              <ul class="nav nav-pills">
+              <ul class="nav nav-pills position-reverse">
                 <li class="nav-item">
-                  <a class="nav-link active" href="#settings" data-toggle="tab"
-                    >Settings</a
+                  <router-link class="nav-link active" to="/user">
+                    <i class="fas fa-arrow-circle-left"></i> Return</router-link
                   >
                 </li>
               </ul>
@@ -380,4 +380,11 @@ export default {
 </script>
 
 <style>
+    .position-reverse {
+        flex-direction: row-reverse !important;
+    }
+
+    .img-max-height {
+        max-height: 100px !important;
+    }
 </style>
