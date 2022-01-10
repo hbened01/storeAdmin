@@ -26,6 +26,8 @@ Route::post('/admin/user/setRegisterUser', 'App\Http\Controllers\Admin\UsersCont
 Route::post('/admin/user/setEditUser', 'App\Http\Controllers\Admin\UsersController@setEditUser');
 Route::post('/admin/user/setChangeStatusUser', 'App\Http\Controllers\Admin\UsersController@setChangeStatusUser');
 
+Route::get('/admin/role/getlistRoles', 'App\Http\Controllers\Admin\RolesController@getlistRoles');
+
 Route::post('/file/setRegisterFile', 'App\Http\Controllers\FilesController@setRegisterFile');
 
 Route::get('/{optional?}', function () {
