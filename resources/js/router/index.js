@@ -4,8 +4,7 @@ import Router from "vue-router";
 Vue.use(Router);
 
 export default new Router({
-    routes: [
-        {
+    routes: [{
             path: "/",
             component: require("./../views/dashboard/index").default,
         },
@@ -34,8 +33,18 @@ export default new Router({
             component: require("./../views/product/index").default,
         },
         {
-            path: "/rol",
-            component: require("./../views/rol/index").default,
+            path: "/role",
+            component: require("./../views/role/index").default,
+        },
+        {
+            path: "/role/create",
+            component: require("./../views/role/create").default,
+        },
+        {
+            path: "/role/edit/:id",
+            name: "/role/edit",
+            component: require("./../views/role/edit").default,
+            props: true,
         },
         {
             path: "/user",

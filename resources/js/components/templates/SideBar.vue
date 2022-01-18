@@ -106,7 +106,7 @@
             </router-link>
           </li>
           <li class="nav-item">
-            <router-link :to="'/rol'" class="nav-link">
+            <router-link :to="'/role'" class="nav-link">
               <i class="nav-icon fas fa-unlock-alt"></i>
               <p>
                 ROLES
