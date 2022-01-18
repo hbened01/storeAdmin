@@ -54,7 +54,7 @@
                         <input
                           type="text"
                           class="form-control"
-                          v-model="fillSearchRole.url"
+                          v-model="fillSearchRole.slug"
                           @keyup.enter="getlistRoles"
                         />
                       </div>
@@ -107,24 +107,21 @@
                         <td v-text="item.name"></td>
                         <td v-text="item.slug"></td>
                         <td>
-                            <router-link
-                              class="btn btn-flat btn-primary btn-sm"
-                              :to="{
-                                name: '/role/view',
-                                params: { id: item.id },
-                              }"
-                            >
-                              <i class="fas fa-folder"></i> View
-                            </router-link>
-                            <router-link
-                              class="btn btn-flat btn-info btn-sm"
-                              :to="{
-                                name: '/role/edit',
-                                params: { id: item.id },
-                              }"
-                            >
-                              <i class="fas fa-pencil-alt"></i> Edit
-                            </router-link>
+                          <button
+                            class="btn btn-flat btn-primary btn-sm"
+                            @click="openModalByOptions('role', 'view', item)"
+                          >
+                            <i class="fas fa-folder"></i> View
+                          </button>
+                          <router-link
+                            class="btn btn-flat btn-info btn-sm"
+                            :to="{
+                              name: '/role/edit',
+                              params: { id: item.id },
+                            }"
+                          >
+                            <i class="fas fa-pencil-alt"></i> Edit
+                          </router-link>
                         </td>
                       </tr>
                     </tbody>
@@ -177,6 +174,110 @@
         </div>
       </div>
     </div>
+    <div
+      :class="['modal', 'fade', { show: modalShow }]"
+      :style="modalShow ? viewModal : hideModal"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Store Admin</h5>
+            <button class="close" @click="openModal"></button>
+          </div>
+          <div class="modal-body">
+            <template v-if="modalOption === 1">
+              <div
+                class="callout callout-danger"
+                style="padding: 5px"
+                v-for="(item, key) in messageError"
+                :key="key"
+                v-html="item"
+              />
+            </template>
+            <template v-if="modalOption === 2">
+              <div class="container-fluid">
+                <div class="card card-info">
+                  <div class="card-header">
+                    <h3 class="card-title">Role Information</h3>
+                  </div>
+                  <div class="card-body">
+                    <form role="form">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <label class="col-md-12 col-form-label">Name</label>
+                          <div class="col-md-12">
+                            <span
+                              class="form-control"
+                              v-text="fillViewRole.name"
+                            />
+                          </div>
+                        </div>
+                        <div class="col-md-12">
+                          <label class="col-md-12 col-form-label">Url</label>
+                          <div class="col-md-12">
+                            <span
+                              class="form-control"
+                              v-text="fillViewRole.slug"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                <div class="card card-info">
+                  <div class="card-header">
+                    <h3 class="card-title">List Permissions</h3>
+                  </div>
+                  <div class="card-body table-reponsive">
+                    <template v-if="listRolesPaginated.length">
+                      <div class="scroll-table">
+                        <table
+                          class="
+                            table table-hover table-head-fixed
+                            text-nowrap
+                            projects
+                          "
+                        >
+                          <thead>
+                            <tr>
+                              <th>Name</th>
+                              <th>Url</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr
+                              v-for="(item, key) in listPermissions"
+                              :key="key"
+                            >
+                              <td v-text="item.name"></td>
+                              <td v-text="item.slug"></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </template>
+                    <template v-else>
+                      <div class="callout callout-info text-center">
+                        <h5>
+                          No Data Information In Module Role
+                          <i class="fas fa-info-circle"></i>
+                        </h5>
+                      </div>
+                    </template>
+                  </div>
+                </div>
+              </div>
+            </template>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" @click="closedModal">
+              Closed
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -186,14 +287,31 @@ export default {
   mixins: [],
   data() {
     return {
+      modalShow: false,
+      modalOption: 0,
+      viewModal: {
+        display: "block",
+        background: "#00000006b",
+      },
+      hideModal: {
+        display: "none",
+      },
+      error: 0,
+      messageError: [],
       pageNumber: 0,
       itemsPerPage: 10,
       fillSearchRole: {
         name: "",
-        url: "",
+        slug: "",
+      },
+      fillViewRole: {
+        idRole: "",
+        name: "",
+        slug: "",
       },
       listRoles: [],
       fullscreenLoading: false,
+      listPermissions: [],
     };
   },
   computed: {
@@ -221,6 +339,19 @@ export default {
     },
   },
   methods: {
+    openModal() {
+      this.modalShow = !this.modalShow;
+    },
+    closedModal() {
+      this.modalShow = !this.modalShow;
+      this.cleanModalOptions();
+    },
+    cleanModalOptions() {
+        this.fillViewRole.name = "";
+        this.fillViewRole.slug = "";
+        this.listPermissions = [];
+        this.modalOption = 0;
+    },
     nextPage() {
       this.pageNumber += 1;
     },
@@ -235,7 +366,7 @@ export default {
     },
     clearSearchCriteria() {
       this.fillSearchRole.name = "";
-      this.fillSearchRole.url = "";
+      this.fillSearchRole.slug = "";
     },
     clearInboxUsers() {
       this.listRoles = [];
@@ -247,7 +378,7 @@ export default {
         .get(url, {
           params: {
             name: this.fillSearchRole.name,
-            url: this.fillSearchRole.url,
+            slug: this.fillSearchRole.slug,
           },
         })
         .then((response) => {
@@ -255,6 +386,39 @@ export default {
           this.listRoles = response.data;
           this.fullscreenLoading = false;
         });
+    },
+    getListPermissionsByRole(id) {
+      const url = "/admin/role/getListPermissionsByRole";
+      axios
+        .get(url, {
+          params: {
+            idRole: id,
+          },
+        })
+        .then((response) => {
+          this.listPermissions = response.data;
+          this.modalShow = true;
+          this.modalOption = 2;
+        });
+    },
+    openModalByOptions(module, action, data) {
+      switch (module) {
+        case "role":
+          switch (action) {
+            case "view":
+                // Set information:
+                this.fillViewRole.name = data.name;
+                this.fillViewRole.slug = data.slug;
+                // Get permission by role:
+                this.getListPermissionsByRole(data?.id);
+              break;
+            default:
+              break;
+          }
+          break;
+        default:
+          break;
+      }
     },
   },
   mounted() {

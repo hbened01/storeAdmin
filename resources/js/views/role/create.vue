@@ -90,34 +90,38 @@
                   </div>
                   <div class="card-body table-reponsive">
                     <template v-if="listPermissions.length">
-                      <table
-                        class="
-                          table table-hover table-head-fixed
-                          text-nowrap
-                          projects
-                        "
-                      >
-                        <thead>
-                          <tr>
-                            <th>Action</th>
-                            <th>Name</th>
-                            <th>friendly Url</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr
-                            v-for="(item, key) in listPermissionsFilter"
-                            :key="key"
-                            @click.prevent="checkRow(key)"
-                          >
-                            <td>
-                              <el-checkbox v-model="item.checked"></el-checkbox>
-                            </td>
-                            <td v-text="item.name"></td>
-                            <td v-text="item.slug"></td>
-                          </tr>
-                        </tbody>
-                      </table>
+                      <div class="scroll-table">
+                        <table
+                          class="
+                            table table-hover table-head-fixed
+                            text-nowrap
+                            projects
+                          "
+                        >
+                          <thead>
+                            <tr>
+                              <th>Action</th>
+                              <th>Name</th>
+                              <th>friendly Url</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr
+                              v-for="(item, key) in listPermissionsFilter"
+                              :key="key"
+                              @click.prevent="checkRow(key)"
+                            >
+                              <td>
+                                <el-checkbox
+                                  v-model="item.checked"
+                                ></el-checkbox>
+                              </td>
+                              <td v-text="item.name"></td>
+                              <td v-text="item.slug"></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
                     </template>
                     <template v-else>
                       <div class="callout callout-info text-center">
