@@ -4,13 +4,13 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Rol</h1>
+            <h1 class="m-0 text-dark">Role</h1>
           </div>
           <!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Rol</li>
+              <li class="breadcrumb-item active">Role</li>
             </ol>
           </div>
           <!-- /.col -->
@@ -23,8 +23,8 @@
       <div class="card">
         <div class="card-header">
           <div class="card-tools">
-            <router-link class="btn btn-info btn-sm" :to="'/user/create'">
-              Add User <i class="fas fa-user-plus"></i>
+            <router-link class="btn btn-info btn-sm" :to="'/role/create'">
+              Add Role <i class="fas fa-user-plus"></i>
             </router-link>
           </div>
         </div>
@@ -110,7 +110,7 @@
                             <router-link
                               class="btn btn-flat btn-primary btn-sm"
                               :to="{
-                                name: '/user/view',
+                                name: '/role/view',
                                 params: { id: item.id },
                               }"
                             >
@@ -119,7 +119,7 @@
                             <router-link
                               class="btn btn-flat btn-info btn-sm"
                               :to="{
-                                name: '/user/edit',
+                                name: '/role/edit',
                                 params: { id: item.id },
                               }"
                             >
@@ -166,7 +166,7 @@
                 <template v-else>
                   <div class="callout callout-info text-center">
                     <h5>
-                      No Data Information In Module Users
+                      No Data Information In Module Role
                       <i class="fas fa-info-circle"></i>
                     </h5>
                   </div>

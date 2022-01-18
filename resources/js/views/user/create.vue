@@ -239,7 +239,7 @@ export default {
         })
         .then((response) => {
           this.fullscreenLoading = false;
-          this.$router.push('/user');
+          this.$router.push("/user");
         });
     },
     getFile(e) {
@@ -280,15 +280,15 @@ export default {
       }
       return this.error;
     },
-  },
-  clearFormUser() {
-    this.fillCreateUser.firstname = '';
-    this.fillCreateUser.secondname = '';
-    this.fillCreateUser.lastname = '';
-    this.fillCreateUser.user = '';
-    this.fillCreateUser.email = '';
-    this.fillCreateUser.password = '';
-    this.fillCreateUser.photography = '';
+    clearFormUser() {
+      this.fillCreateUser.firstname = "";
+      this.fillCreateUser.secondname = "";
+      this.fillCreateUser.lastname = "";
+      this.fillCreateUser.user = "";
+      this.fillCreateUser.email = "";
+      this.fillCreateUser.password = "";
+      this.fillCreateUser.photography = "";
+    },
   },
 };
 </script>
