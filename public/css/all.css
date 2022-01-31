@@ -457,7 +457,8 @@ html.os-html,html.os-html>.os-host{display:block;overflow:hidden;box-sizing:bord
     opacity: 0;
 }
 
-.slide-fade-enter-active, .slide-fade-enter-leave-active {
+.slide-fade-enter-active,
+.slide-fade-enter-leave-active {
     transition: all 0.2s ease;
 }
 
@@ -480,4 +481,9 @@ html.os-html,html.os-html>.os-host{display:block;overflow:hidden;box-sizing:bord
 
 .button-full {
     width: 100%;
+}
+
+.scroll-table {
+    max-height: 350px !important;
+    overflow-y: auto !important;
 }

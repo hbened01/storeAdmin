@@ -7910,6 +7910,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Users",
   props: {},
@@ -8044,6 +8048,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+//
+//
+//
+//
 //
 //
 //
@@ -8554,20 +8562,138 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Users",
   props: {},
   mixins: [],
   data: function data() {
     return {
+      modalShow: false,
+      modalOption: 0,
+      viewModal: {
+        display: "block",
+        background: "#00000006b"
+      },
+      hideModal: {
+        display: "none"
+      },
+      error: 0,
+      messageError: [],
       pageNumber: 0,
       itemsPerPage: 10,
       fillSearchRole: {
         name: "",
-        url: ""
+        slug: ""
+      },
+      fillViewRole: {
+        idRole: "",
+        name: "",
+        slug: ""
       },
       listRoles: [],
-      fullscreenLoading: false
+      fullscreenLoading: false,
+      listPermissions: []
     };
   },
   computed: {
@@ -8597,6 +8723,19 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    openModal: function openModal() {
+      this.modalShow = !this.modalShow;
+    },
+    closedModal: function closedModal() {
+      this.modalShow = !this.modalShow;
+      this.cleanModalOptions();
+    },
+    cleanModalOptions: function cleanModalOptions() {
+      this.fillViewRole.name = "";
+      this.fillViewRole.slug = "";
+      this.listPermissions = [];
+      this.modalOption = 0;
+    },
     nextPage: function nextPage() {
       this.pageNumber += 1;
     },
@@ -8611,7 +8750,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     clearSearchCriteria: function clearSearchCriteria() {
       this.fillSearchRole.name = "";
-      this.fillSearchRole.url = "";
+      this.fillSearchRole.slug = "";
     },
     clearInboxUsers: function clearInboxUsers() {
       this.listRoles = [];
@@ -8624,7 +8763,7 @@ __webpack_require__.r(__webpack_exports__);
       axios.get(url, {
         params: {
           name: this.fillSearchRole.name,
-          url: this.fillSearchRole.url
+          slug: this.fillSearchRole.slug
         }
       }).then(function (response) {
         _this.initializePagination();
@@ -8632,6 +8771,42 @@ __webpack_require__.r(__webpack_exports__);
         _this.listRoles = response.data;
         _this.fullscreenLoading = false;
       });
+    },
+    getListPermissionsByRole: function getListPermissionsByRole(id) {
+      var _this2 = this;
+
+      var url = "/admin/role/getListPermissionsByRole";
+      axios.get(url, {
+        params: {
+          idRole: id
+        }
+      }).then(function (response) {
+        _this2.listPermissions = response.data;
+        _this2.modalShow = true;
+        _this2.modalOption = 2;
+      });
+    },
+    openModalByOptions: function openModalByOptions(module, action, data) {
+      switch (module) {
+        case "role":
+          switch (action) {
+            case "view":
+              // Set information:
+              this.fillViewRole.name = data.name;
+              this.fillViewRole.slug = data.slug; // Get permission by role:
+
+              this.getListPermissionsByRole(data === null || data === void 0 ? void 0 : data.id);
+              break;
+
+            default:
+              break;
+          }
+
+          break;
+
+        default:
+          break;
+      }
     }
   },
   mounted: function mounted() {
@@ -103730,71 +103905,73 @@ var render = function () {
                     [
                       _vm.listPermissions.length
                         ? [
-                            _c(
-                              "table",
-                              {
-                                staticClass:
-                                  "\n                        table table-hover table-head-fixed\n                        text-nowrap\n                        projects\n                      ",
-                              },
-                              [
-                                _vm._m(3),
-                                _vm._v(" "),
-                                _c(
-                                  "tbody",
-                                  _vm._l(
-                                    _vm.listPermissionsFilter,
-                                    function (item, key) {
-                                      return _c(
-                                        "tr",
-                                        {
-                                          key: key,
-                                          on: {
-                                            click: function ($event) {
-                                              $event.preventDefault()
-                                              return _vm.checkRow(key)
+                            _c("div", { staticClass: "scroll-table" }, [
+                              _c(
+                                "table",
+                                {
+                                  staticClass:
+                                    "\n                          table table-hover table-head-fixed\n                          text-nowrap\n                          projects\n                        ",
+                                },
+                                [
+                                  _vm._m(3),
+                                  _vm._v(" "),
+                                  _c(
+                                    "tbody",
+                                    _vm._l(
+                                      _vm.listPermissionsFilter,
+                                      function (item, key) {
+                                        return _c(
+                                          "tr",
+                                          {
+                                            key: key,
+                                            on: {
+                                              click: function ($event) {
+                                                $event.preventDefault()
+                                                return _vm.checkRow(key)
+                                              },
                                             },
                                           },
-                                        },
-                                        [
-                                          _c(
-                                            "td",
-                                            [
-                                              _c("el-checkbox", {
-                                                model: {
-                                                  value: item.checked,
-                                                  callback: function ($$v) {
-                                                    _vm.$set(
-                                                      item,
-                                                      "checked",
-                                                      $$v
-                                                    )
+                                          [
+                                            _c(
+                                              "td",
+                                              [
+                                                _c("el-checkbox", {
+                                                  model: {
+                                                    value: item.checked,
+                                                    callback: function ($$v) {
+                                                      _vm.$set(
+                                                        item,
+                                                        "checked",
+                                                        $$v
+                                                      )
+                                                    },
+                                                    expression: "item.checked",
                                                   },
-                                                  expression: "item.checked",
-                                                },
-                                              }),
-                                            ],
-                                            1
-                                          ),
-                                          _vm._v(" "),
-                                          _c("td", {
-                                            domProps: {
-                                              textContent: _vm._s(item.name),
-                                            },
-                                          }),
-                                          _vm._v(" "),
-                                          _c("td", {
-                                            domProps: {
-                                              textContent: _vm._s(item.slug),
-                                            },
-                                          }),
-                                        ]
-                                      )
-                                    }
+                                                }),
+                                              ],
+                                              1
+                                            ),
+                                            _vm._v(" "),
+                                            _c("td", {
+                                              domProps: {
+                                                textContent: _vm._s(item.name),
+                                              },
+                                            }),
+                                            _vm._v(" "),
+                                            _c("td", {
+                                              domProps: {
+                                                textContent: _vm._s(item.slug),
+                                              },
+                                            }),
+                                          ]
+                                        )
+                                      }
+                                    ),
+                                    0
                                   ),
-                                  0
-                                ),
-                              ]
-                            ),
+                                ]
+                              ),
+                            ]),
                           ]
                         : [_vm._m(4)],
                     ],
@@ -104163,71 +104340,73 @@ var render = function () {
                     [
                       _vm.listPermissions.length
                         ? [
-                            _c(
-                              "table",
-                              {
-                                staticClass:
-                                  "\n                        table table-hover table-head-fixed\n                        text-nowrap\n                        projects\n                      ",
-                              },
-                              [
-                                _vm._m(3),
-                                _vm._v(" "),
-                                _c(
-                                  "tbody",
-                                  _vm._l(
-                                    _vm.listPermissionsFilter,
-                                    function (item, key) {
-                                      return _c(
-                                        "tr",
-                                        {
-                                          key: key,
-                                          on: {
-                                            click: function ($event) {
-                                              $event.preventDefault()
-                                              return _vm.checkRow(key)
+                            _c("div", { staticClass: "scroll-table" }, [
+                              _c(
+                                "table",
+                                {
+                                  staticClass:
+                                    "\n                          table table-hover table-head-fixed\n                          text-nowrap\n                          projects\n                        ",
+                                },
+                                [
+                                  _vm._m(3),
+                                  _vm._v(" "),
+                                  _c(
+                                    "tbody",
+                                    _vm._l(
+                                      _vm.listPermissionsFilter,
+                                      function (item, key) {
+                                        return _c(
+                                          "tr",
+                                          {
+                                            key: key,
+                                            on: {
+                                              click: function ($event) {
+                                                $event.preventDefault()
+                                                return _vm.checkRow(key)
+                                              },
                                             },
                                           },
-                                        },
-                                        [
-                                          _c(
-                                            "td",
-                                            [
-                                              _c("el-checkbox", {
-                                                model: {
-                                                  value: item.checked,
-                                                  callback: function ($$v) {
-                                                    _vm.$set(
-                                                      item,
-                                                      "checked",
-                                                      $$v
-                                                    )
+                                          [
+                                            _c(
+                                              "td",
+                                              [
+                                                _c("el-checkbox", {
+                                                  model: {
+                                                    value: item.checked,
+                                                    callback: function ($$v) {
+                                                      _vm.$set(
+                                                        item,
+                                                        "checked",
+                                                        $$v
+                                                      )
+                                                    },
+                                                    expression: "item.checked",
                                                   },
-                                                  expression: "item.checked",
-                                                },
-                                              }),
-                                            ],
-                                            1
-                                          ),
-                                          _vm._v(" "),
-                                          _c("td", {
-                                            domProps: {
-                                              textContent: _vm._s(item.name),
-                                            },
-                                          }),
-                                          _vm._v(" "),
-                                          _c("td", {
-                                            domProps: {
-                                              textContent: _vm._s(item.slug),
-                                            },
-                                          }),
-                                        ]
-                                      )
-                                    }
+                                                }),
+                                              ],
+                                              1
+                                            ),
+                                            _vm._v(" "),
+                                            _c("td", {
+                                              domProps: {
+                                                textContent: _vm._s(item.name),
+                                              },
+                                            }),
+                                            _vm._v(" "),
+                                            _c("td", {
+                                              domProps: {
+                                                textContent: _vm._s(item.slug),
+                                              },
+                                            }),
+                                          ]
+                                        )
+                                      }
+                                    ),
+                                    0
                                   ),
-                                  0
-                                ),
-                              ]
-                            ),
+                                ]
+                              ),
+                            ]),
                           ]
                         : [_vm._m(4)],
                     ],
@@ -104482,13 +104661,13 @@ var render = function () {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.fillSearchRole.url,
-                              expression: "fillSearchRole.url",
+                              value: _vm.fillSearchRole.slug,
+                              expression: "fillSearchRole.slug",
                             },
                           ],
                           staticClass: "form-control",
                           attrs: { type: "text" },
-                          domProps: { value: _vm.fillSearchRole.url },
+                          domProps: { value: _vm.fillSearchRole.slug },
                           on: {
                             keyup: function ($event) {
                               if (
@@ -104511,7 +104690,7 @@ var render = function () {
                               }
                               _vm.$set(
                                 _vm.fillSearchRole,
-                                "url",
+                                "slug",
                                 $event.target.value
                               )
                             },
@@ -104622,14 +104801,17 @@ var render = function () {
                                       "td",
                                       [
                                         _c(
-                                          "router-link",
+                                          "button",
                                           {
                                             staticClass:
                                               "btn btn-flat btn-primary btn-sm",
-                                            attrs: {
-                                              to: {
-                                                name: "/role/view",
-                                                params: { id: item.id },
+                                            on: {
+                                              click: function ($event) {
+                                                return _vm.openModalByOptions(
+                                                  "role",
+                                                  "view",
+                                                  item
+                                                )
                                               },
                                             },
                                           },
@@ -104638,7 +104820,7 @@ var render = function () {
                                               staticClass: "fas fa-folder",
                                             }),
                                             _vm._v(
-                                              " View\n                          "
+                                              " View\n                        "
                                             ),
                                           ]
                                         ),
@@ -104660,7 +104842,7 @@ var render = function () {
                                               staticClass: "fas fa-pencil-alt",
                                             }),
                                             _vm._v(
-                                              " Edit\n                          "
+                                              " Edit\n                        "
                                             ),
                                           ]
                                         ),
@@ -104775,6 +104957,184 @@ var render = function () {
         ]),
       ]),
     ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        class: ["modal", "fade", { show: _vm.modalShow }],
+        style: _vm.modalShow ? _vm.viewModal : _vm.hideModal,
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "modal-dialog", attrs: { role: "document" } },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _c("div", { staticClass: "modal-header" }, [
+                _c("h5", { staticClass: "modal-title" }, [
+                  _vm._v("Store Admin"),
+                ]),
+                _vm._v(" "),
+                _c("button", {
+                  staticClass: "close",
+                  on: { click: _vm.openModal },
+                }),
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "modal-body" },
+                [
+                  _vm.modalOption === 1
+                    ? _vm._l(_vm.messageError, function (item, key) {
+                        return _c("div", {
+                          key: key,
+                          staticClass: "callout callout-danger",
+                          staticStyle: { padding: "5px" },
+                          domProps: { innerHTML: _vm._s(item) },
+                        })
+                      })
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.modalOption === 2
+                    ? [
+                        _c("div", { staticClass: "container-fluid" }, [
+                          _c("div", { staticClass: "card card-info" }, [
+                            _vm._m(5),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "card-body" }, [
+                              _c("form", { attrs: { role: "form" } }, [
+                                _c("div", { staticClass: "row" }, [
+                                  _c("div", { staticClass: "col-md-12" }, [
+                                    _c(
+                                      "label",
+                                      {
+                                        staticClass: "col-md-12 col-form-label",
+                                      },
+                                      [_vm._v("Name")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("div", { staticClass: "col-md-12" }, [
+                                      _c("span", {
+                                        staticClass: "form-control",
+                                        domProps: {
+                                          textContent: _vm._s(
+                                            _vm.fillViewRole.name
+                                          ),
+                                        },
+                                      }),
+                                    ]),
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col-md-12" }, [
+                                    _c(
+                                      "label",
+                                      {
+                                        staticClass: "col-md-12 col-form-label",
+                                      },
+                                      [_vm._v("Url")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("div", { staticClass: "col-md-12" }, [
+                                      _c("span", {
+                                        staticClass: "form-control",
+                                        domProps: {
+                                          textContent: _vm._s(
+                                            _vm.fillViewRole.slug
+                                          ),
+                                        },
+                                      }),
+                                    ]),
+                                  ]),
+                                ]),
+                              ]),
+                            ]),
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "card card-info" }, [
+                            _vm._m(6),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "card-body table-reponsive" },
+                              [
+                                _vm.listRolesPaginated.length
+                                  ? [
+                                      _c(
+                                        "div",
+                                        { staticClass: "scroll-table" },
+                                        [
+                                          _c(
+                                            "table",
+                                            {
+                                              staticClass:
+                                                "\n                          table table-hover table-head-fixed\n                          text-nowrap\n                          projects\n                        ",
+                                            },
+                                            [
+                                              _vm._m(7),
+                                              _vm._v(" "),
+                                              _c(
+                                                "tbody",
+                                                _vm._l(
+                                                  _vm.listPermissions,
+                                                  function (item, key) {
+                                                    return _c(
+                                                      "tr",
+                                                      { key: key },
+                                                      [
+                                                        _c("td", {
+                                                          domProps: {
+                                                            textContent: _vm._s(
+                                                              item.name
+                                                            ),
+                                                          },
+                                                        }),
+                                                        _vm._v(" "),
+                                                        _c("td", {
+                                                          domProps: {
+                                                            textContent: _vm._s(
+                                                              item.slug
+                                                            ),
+                                                          },
+                                                        }),
+                                                      ]
+                                                    )
+                                                  }
+                                                ),
+                                                0
+                                              ),
+                                            ]
+                                          ),
+                                        ]
+                                      ),
+                                    ]
+                                  : [_vm._m(8)],
+                              ],
+                              2
+                            ),
+                          ]),
+                        ]),
+                      ]
+                    : _vm._e(),
+                ],
+                2
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    on: { click: _vm.closedModal },
+                  },
+                  [_vm._v("\n            Closed\n          ")]
+                ),
+              ]),
+            ]),
+          ]
+        ),
+      ]
+    ),
   ])
 }
 var staticRenderFns = [
@@ -104842,6 +105202,47 @@ var staticRenderFns = [
       _c("h5", [
         _vm._v(
           "\n                    No Data Information In Module Role\n                    "
+        ),
+        _c("i", { staticClass: "fas fa-info-circle" }),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h3", { staticClass: "card-title" }, [_vm._v("Role Information")]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h3", { staticClass: "card-title" }, [_vm._v("List Permissions")]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Name")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Url")]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "callout callout-info text-center" }, [
+      _c("h5", [
+        _vm._v(
+          "\n                        No Data Information In Module Role\n                        "
         ),
         _c("i", { staticClass: "fas fa-info-circle" }),
       ]),

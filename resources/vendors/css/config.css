@@ -3,7 +3,8 @@
     opacity: 0;
 }
 
-.slide-fade-enter-active, .slide-fade-enter-leave-active {
+.slide-fade-enter-active,
+.slide-fade-enter-leave-active {
     transition: all 0.2s ease;
 }
 
@@ -26,4 +27,9 @@
 
 .button-full {
     width: 100%;
+}
+
+.scroll-table {
+    max-height: 350px !important;
+    overflow-y: auto !important;
 }

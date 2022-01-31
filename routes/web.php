@@ -31,6 +31,8 @@ Route::get('/admin/role/getListPermissionsByRole', 'App\Http\Controllers\Admin\R
 Route::post('/admin/role/setRegisterRolePermit', 'App\Http\Controllers\Admin\RolesController@setRegisterRolePermit');
 Route::post('/admin/role/setRegisterEditRolePermit', 'App\Http\Controllers\Admin\RolesController@setRegisterEditRolePermit');
 
+Route::get('/admin/permit/getListPermissions', 'App\Http\Controllers\Admin\PermittionsController@getListPermissions');
+
 Route::post('/file/setRegisterFile', 'App\Http\Controllers\FilesController@setRegisterFile');
 
 Route::get('/{optional?}', function () {
