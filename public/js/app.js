@@ -9679,6 +9679,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Users",
   props: {},
@@ -9692,8 +9712,10 @@ __webpack_require__.r(__webpack_exports__);
         user: "",
         email: "",
         password: "",
-        photography: ""
+        photography: "",
+        idRole: ""
       },
+      listRoles: [],
       modalShow: false,
       viewModal: {
         display: "block",
@@ -9709,6 +9731,9 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   computed: {},
+  mounted: function mounted() {
+    this.getlistRoles();
+  },
   methods: {
     setRegisterUser: function setRegisterUser() {
       if (this.validateUserForm()) {
@@ -9763,13 +9788,45 @@ __webpack_require__.r(__webpack_exports__);
         password: (_this$fillCreateUser7 = this.fillCreateUser) === null || _this$fillCreateUser7 === void 0 ? void 0 : _this$fillCreateUser7.password,
         photography: idFile
       }).then(function (response) {
-        _this2.fullscreenLoading = false;
+        if (response !== null && response !== void 0 && response.data) {
+          _this2.setEditRolByUser(response === null || response === void 0 ? void 0 : response.data);
+        } else {
+          _this2.fullscreenLoading = false;
+          Swal.fire({
+            icon: "error",
+            title: "Duplicate user in database!!",
+            showConfirmButton: true // timer: 1500,
 
-        _this2.$router.push("/user");
+          });
+        }
+      });
+    },
+    setEditRolByUser: function setEditRolByUser(idUser) {
+      var _this$fillCreateUser8,
+          _this3 = this;
+
+      var url = "/admin/user/setEditRolByUser";
+      axios.post(url, {
+        idUser: idUser,
+        idRole: (_this$fillCreateUser8 = this.fillCreateUser) === null || _this$fillCreateUser8 === void 0 ? void 0 : _this$fillCreateUser8.idRole
+      }).then(function (response) {
+        _this3.fullscreenLoading = false;
+
+        _this3.$router.push("/user");
       });
     },
     getFile: function getFile(e) {
       this.fillCreateUser.photography = e.target.files[0];
+    },
+    getlistRoles: function getlistRoles() {
+      var _this4 = this;
+
+      this.fullscreenLoading = true;
+      var url = "/admin/role/getlistRoles";
+      axios.get(url).then(function (response) {
+        _this4.listRoles = response.data;
+        _this4.fullscreenLoading = false;
+      });
     },
     openModal: function openModal() {
       this.modalShow = !this.modalShow;
@@ -9778,37 +9835,41 @@ __webpack_require__.r(__webpack_exports__);
       this.modalShow = !this.modalShow;
     },
     validateUserForm: function validateUserForm() {
-      var _this$fillCreateUser8, _this$fillCreateUser9, _this$fillCreateUser10, _this$fillCreateUser11, _this$fillCreateUser12, _this$fillCreateUser13, _this$fillCreateUser14;
+      var _this$fillCreateUser9, _this$fillCreateUser10, _this$fillCreateUser11, _this$fillCreateUser12, _this$fillCreateUser13, _this$fillCreateUser14, _this$fillCreateUser15, _this$fillCreateUser16;
 
       this.error = 0;
       this.messageError = [];
 
-      if (!((_this$fillCreateUser8 = this.fillCreateUser) !== null && _this$fillCreateUser8 !== void 0 && _this$fillCreateUser8.firstname)) {
+      if (!((_this$fillCreateUser9 = this.fillCreateUser) !== null && _this$fillCreateUser9 !== void 0 && _this$fillCreateUser9.firstname)) {
         this.messageError.push('"Firts Name" <strong>is obligatory</strong>');
       }
 
-      if (!((_this$fillCreateUser9 = this.fillCreateUser) !== null && _this$fillCreateUser9 !== void 0 && _this$fillCreateUser9.secondname)) {
+      if (!((_this$fillCreateUser10 = this.fillCreateUser) !== null && _this$fillCreateUser10 !== void 0 && _this$fillCreateUser10.secondname)) {
         this.messageError.push('"Second Name" <strong>is obligatory</strong>');
       }
 
-      if (!((_this$fillCreateUser10 = this.fillCreateUser) !== null && _this$fillCreateUser10 !== void 0 && _this$fillCreateUser10.lastname)) {
+      if (!((_this$fillCreateUser11 = this.fillCreateUser) !== null && _this$fillCreateUser11 !== void 0 && _this$fillCreateUser11.lastname)) {
         this.messageError.push('"Last Name" <strong>is obligatory</strong>');
       }
 
-      if (!((_this$fillCreateUser11 = this.fillCreateUser) !== null && _this$fillCreateUser11 !== void 0 && _this$fillCreateUser11.user)) {
+      if (!((_this$fillCreateUser12 = this.fillCreateUser) !== null && _this$fillCreateUser12 !== void 0 && _this$fillCreateUser12.user)) {
         this.messageError.push('"User" <strong>is obligatory</strong>');
       }
 
-      if (!((_this$fillCreateUser12 = this.fillCreateUser) !== null && _this$fillCreateUser12 !== void 0 && _this$fillCreateUser12.email)) {
+      if (!((_this$fillCreateUser13 = this.fillCreateUser) !== null && _this$fillCreateUser13 !== void 0 && _this$fillCreateUser13.email)) {
         this.messageError.push('"Email" <strong>is obligatory</strong>');
       }
 
-      if (!((_this$fillCreateUser13 = this.fillCreateUser) !== null && _this$fillCreateUser13 !== void 0 && _this$fillCreateUser13.password)) {
+      if (!((_this$fillCreateUser14 = this.fillCreateUser) !== null && _this$fillCreateUser14 !== void 0 && _this$fillCreateUser14.password)) {
         this.messageError.push('"Password" <strong>is obligatory</strong>');
       }
 
-      if (!((_this$fillCreateUser14 = this.fillCreateUser) !== null && _this$fillCreateUser14 !== void 0 && _this$fillCreateUser14.photography)) {
-        this.messageError.push('"Password" <strong>is obligatory</strong>');
+      if (!((_this$fillCreateUser15 = this.fillCreateUser) !== null && _this$fillCreateUser15 !== void 0 && _this$fillCreateUser15.photography)) {
+        this.messageError.push('"Photography" <strong>is obligatory</strong>');
+      }
+
+      if (!((_this$fillCreateUser16 = this.fillCreateUser) !== null && _this$fillCreateUser16 !== void 0 && _this$fillCreateUser16.idRole)) {
+        this.messageError.push('"Role" <strong>is obligatory</strong>');
       }
 
       if (this.messageError.length) {
@@ -107427,6 +107488,45 @@ var render = function () {
                           }),
                         ],
                         1
+                      ),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-6" }, [
+                      _c("label", { staticClass: "col-md-3 col-form-label" }, [
+                        _vm._v("Roles"),
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "col-md-9" },
+                        [
+                          [
+                            _c(
+                              "el-select",
+                              {
+                                attrs: {
+                                  placeholder: "Select a rol",
+                                  clearable: "",
+                                },
+                                model: {
+                                  value: _vm.fillCreateUser.idRole,
+                                  callback: function ($$v) {
+                                    _vm.$set(_vm.fillCreateUser, "idRole", $$v)
+                                  },
+                                  expression: "fillCreateUser.idRole",
+                                },
+                              },
+                              _vm._l(_vm.listRoles, function (item) {
+                                return _c("el-option", {
+                                  key: item.id,
+                                  attrs: { label: item.name, value: item.id },
+                                })
+                              }),
+                              1
+                            ),
+                          ],
+                        ],
+                        2
                       ),
                     ]),
                     _vm._v(" "),

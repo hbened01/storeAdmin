@@ -42,22 +42,28 @@ class UsersController extends Controller
     {
         if (!$request->ajax()) return redirect('/');
 
-        $firstname = $request->firstname !== NULL ? $request->firstname : '';
-        $secondname = $request->secondname !== NULL ? $request->secondname : '';
-        $lastname = $request->lastname !== NULL ? $request->lastname : '';
-        $user = $request->user !== NULL ? $request->user : '';
-        $email = $request->email !== NULL ? $request->email : '';
-        $password = $request->password !== NULL ? Hash::make($request->password) : '';
-        $photography = $request->photography !== NULL ? $request->photography : 0;
+        try {
 
-        $data_query = DB::select(
-            '
-                call sp_set_register_user (?, ?, ?, ?, ?, ?, ?)
-            ',
-            [$firstname, $secondname, $lastname, $user, $email, $password, $photography]
-        );
+            $firstname = $request->firstname !== NULL ? $request->firstname : '';
+            $secondname = $request->secondname !== NULL ? $request->secondname : '';
+            $lastname = $request->lastname !== NULL ? $request->lastname : '';
+            $user = $request->user !== NULL ? $request->user : '';
+            $email = $request->email !== NULL ? $request->email : '';
+            $password = $request->password !== NULL ? Hash::make($request->password) : '';
+            $photography = $request->photography !== NULL ? $request->photography : 0;
 
-        return true;
+            $data_query = DB::select(
+                '
+                    call sp_set_register_user (?, ?, ?, ?, ?, ?, ?)
+                ',
+                [$firstname, $secondname, $lastname, $user, $email, $password, $photography]
+            );
+
+        } catch (\Throwable $th) {
+            return false;
+        }
+
+        return $data_query[0]->idUser;
     }
 
     public function setEditUser(Request $request)
@@ -110,5 +116,24 @@ class UsersController extends Controller
 
         return true;
 
+    }
+
+    public function setEditRolByUser(Request $request)
+    {
+        if (!$request->ajax()) return redirect('/');
+
+        $idUser = $request->idUser !== NULL ? $request->idUser : '';
+        $idRole = $request->idRole !== NULL ? $request->idRole : '';
+
+        $data_query = DB::select(
+            '
+                call sp_set_edit_rol_by_user (?, ?)
+            ',
+            [$idUser, $idRole]
+        );
+
+        // die(var_dump($data_query));
+
+        return true;
     }
 }
