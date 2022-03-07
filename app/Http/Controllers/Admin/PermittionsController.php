@@ -25,4 +25,38 @@ class PermittionsController extends Controller
 
         return $data_query;
     }
+
+    public function setRegisterPermit(Request $request)
+    {
+        if (!$request->ajax()) return redirect('/');
+
+        $name = $request->name !== NULL ? $request->name : '';
+        $slug = $request->slug !== NULL ? $request->slug : '';
+
+        DB::select(
+            '
+                call sp_permit_set_register_permissions (?, ?)
+            ',
+            [$name, $slug]
+        );
+
+    }
+
+    public function setEditPermit(Request $request)
+    {
+        if (!$request->ajax()) return redirect('/');
+
+        $id = $request->name !== NULL ? $request->idPermit : 0;
+        $name = $request->name !== NULL ? $request->name : '';
+        $slug = $request->slug !== NULL ? $request->slug : '';
+
+        DB::select(
+            '
+                call sp_permit_set_edit_permissions (?, ?, ?)
+            ',
+            [$id, $name, $slug]
+        );
+
+    }
+
 }

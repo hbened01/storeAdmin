@@ -23,7 +23,7 @@
       <div class="card">
         <div class="card-header">
           <div class="card-tools">
-            <router-link class="btn btn-info btn-sm" :to="'/role/create'">
+            <router-link class="btn btn-info btn-sm" :to="'/permit/create'">
               Add Permit <i class="fas fa-user-plus"></i>
             </router-link>
           </div>
@@ -36,28 +36,26 @@
               </div>
               <div class="card-body">
                 <form role="form">
-                  <div class="row">
-                    <div class="col-md-6">
-                      <label class="col-md-3 col-form-label">Name</label>
-                      <div class="col-md-9">
-                        <input
-                          type="text"
-                          class="form-control"
-                          v-model="fillSearchPermit.name"
-                          @keyup.enter="getListPermissions"
-                        />
-                      </div>
+                  <div class="col-md-6">
+                    <label class="col-md-3 col-form-label">Name</label>
+                    <div class="col-md-9">
+                      <input
+                        type="text"
+                        class="form-control"
+                        v-model="fillSearchPermit.name"
+                        @keyup.enter="getListPermissions"
+                      />
                     </div>
-                    <div class="col-md-6">
-                      <label class="col-md-3 col-form-label">Url</label>
-                      <div class="col-md-9">
-                        <input
-                          type="text"
-                          class="form-control"
-                          v-model="fillSearchPermit.slug"
-                          @keyup.enter="getListPermissions"
-                        />
-                      </div>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="col-md-3 col-form-label">Url</label>
+                    <div class="col-md-9">
+                      <input
+                        type="text"
+                        class="form-control"
+                        v-model="fillSearchPermit.slug"
+                        @keyup.enter="getListPermissions"
+                      />
                     </div>
                   </div>
                 </form>
@@ -103,14 +101,17 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr v-for="(item, key) in listPermissionPaginated" :key="key">
+                      <tr
+                        v-for="(item, key) in listPermissionPaginated"
+                        :key="key"
+                      >
                         <td v-text="item.name"></td>
                         <td v-text="item.slug"></td>
                         <td>
                           <router-link
                             class="btn btn-flat btn-info btn-sm"
                             :to="{
-                              name: '/role/edit',
+                              name: '/permit/edit',
                               params: { id: item.id },
                             }"
                           >
