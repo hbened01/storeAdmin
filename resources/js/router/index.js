@@ -29,6 +29,16 @@ export default new Router({
             component: require("./../views/permit/index").default,
         },
         {
+            path: "/permit/create",
+            component: require("./../views/permit/create").default,
+        },
+        {
+            path: "/permit/edit/:id",
+            name: "/permit/edit",
+            component: require("./../views/permit/edit").default,
+            props: true,
+        },
+        {
             path: "/product",
             component: require("./../views/product/index").default,
         },
