@@ -104,6 +104,26 @@
                       </div>
                     </div>
                     <div class="col-md-6">
+                      <label class="col-md-3 col-form-label">Roles</label>
+                      <div class="col-md-9">
+                        <template>
+                          <el-select
+                            v-model="fillCreateUser.idRole"
+                            placeholder="Select a rol"
+                            clearable
+                          >
+                            <el-option
+                              v-for="item in listRoles"
+                              :key="item.id"
+                              :label="item.name"
+                              :value="item.id"
+                            >
+                            </el-option>
+                          </el-select>
+                        </template>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
                       <label class="col-md-3 col-form-label">Photography</label>
                       <div class="col-md-9">
                         <input
@@ -184,7 +204,9 @@ export default {
         email: "",
         password: "",
         photography: "",
+        idRole: "",
       },
+      listRoles: [],
       modalShow: false,
       viewModal: {
         display: "block",
@@ -200,6 +222,9 @@ export default {
     };
   },
   computed: {},
+  mounted() {
+    this.getlistRoles();
+  },
   methods: {
     setRegisterUser() {
       if (this.validateUserForm()) {
@@ -238,12 +263,41 @@ export default {
           photography: idFile,
         })
         .then((response) => {
-          this.fullscreenLoading = false;
-          this.$router.push("/user");
+          if (response?.data) {
+            this.setEditRolByUser(response?.data);
+          } else {
+            this.fullscreenLoading = false;
+            Swal.fire({
+                icon: "error",
+                title: "Duplicate user in database!!",
+                showConfirmButton: true,
+                // timer: 1500,
+            });
+          }
+        });
+    },
+    setEditRolByUser(idUser) {
+      const url = "/admin/user/setEditRolByUser";
+      axios
+        .post(url, {
+          idUser,
+          idRole: this.fillCreateUser?.idRole,
+        })
+        .then((response) => {
+            this.fullscreenLoading = false;
+            this.$router.push("/user");
         });
     },
     getFile(e) {
       this.fillCreateUser.photography = e.target.files[0];
+    },
+    getlistRoles() {
+      this.fullscreenLoading = true;
+      let url = `/admin/role/getlistRoles`;
+      axios.get(url).then((response) => {
+        this.listRoles = response.data;
+        this.fullscreenLoading = false;
+      });
     },
     openModal() {
       this.modalShow = !this.modalShow;
@@ -273,7 +327,10 @@ export default {
         this.messageError.push('"Password" <strong>is obligatory</strong>');
       }
       if (!this.fillCreateUser?.photography) {
-        this.messageError.push('"Password" <strong>is obligatory</strong>');
+        this.messageError.push('"Photography" <strong>is obligatory</strong>');
+      }
+      if (!this.fillCreateUser?.idRole) {
+        this.messageError.push('"Role" <strong>is obligatory</strong>');
       }
       if (this.messageError.length) {
         this.error = 1;
