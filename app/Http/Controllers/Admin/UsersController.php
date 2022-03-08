@@ -136,4 +136,101 @@ class UsersController extends Controller
 
         return true;
     }
+
+    public function getRoleByUser(Request $request)
+    {
+        if (!$request->ajax()) return redirect('/');
+
+        $idUser = $request->idUser !== NULL ? $request->idUser : 0;
+
+        $data_query = DB::select(
+            '
+                call sp_get_rol_by_user (?)
+            ',
+            [$idUser]
+        );
+
+        // die(var_dump($data_query));
+
+        return $data_query;
+    }
+
+    public function getListPermitByRolAsign(Request $request)
+    {
+        if (!$request->ajax()) return redirect('/');
+
+        $idUser = $request->idUser !== NULL ? $request->idUser : 0;
+
+        $data_query = DB::select(
+            '
+                call sp_get_list_permit_by_rol_asign (?)
+            ',
+            [$idUser]
+        );
+
+        // die(var_dump($data_query));
+
+        return $data_query;
+    }
+
+    public function getListPermissionsByUser(Request $request)
+    {
+        if (!$request->ajax()) return redirect('/');
+
+        $idUser = $request->idUser !== NULL ? $request->idUser : 0;
+
+        $data_query = DB::select(
+            '
+                call sp_get_list_permit_by_user (?)
+            ',
+            [$idUser]
+        );
+
+        // die(var_dump($data_query));
+
+        return $data_query;
+    }
+
+    public function setRegisterRolePermitByUser(Request $request)
+    {
+        if (!$request->ajax()) return redirect('/');
+
+        $idUser = $request->idUser !== NULL ? $request->idUser : 0;
+
+        try {
+            DB::beginTransaction();
+
+            DB::select(
+                '
+                    call sp_set_delete_role_by_user (?)
+                ',
+                [$idUser]
+            );
+
+            $listPermissions = $request->listPermissionsFilter;
+            if (sizeof($listPermissions) > 0) {
+                foreach ($listPermissions as $key => $value) {
+                    if ($value['checked'] == true) {
+                        DB::select(
+                            '
+                                call sp_set_register_permit_by_user (?, ?)
+                            ',
+                            [$idUser, $value['id']]
+                        );
+                    }
+                }
+            }
+
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            // echo "Error: " . $th;
+            // die();
+            return false;
+        }
+
+        // die(var_dump($data_query));
+
+        return true;
+    }
 }

@@ -197,7 +197,10 @@
                             </router-link>
                             <router-link
                               class="btn btn-flat btn-success btn-sm"
-                              :to="'/'"
+                              :to="{
+                                name: '/user/permit',
+                                params: { id: item.id },
+                              }"
                             >
                               <i class="fas fa-key"></i> Permit
                             </router-link>
