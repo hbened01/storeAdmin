@@ -76,6 +76,12 @@ export default new Router({
             component: require("./../views/user/view").default,
             props: true,
         },
+        {
+            path: "/user/permit/:id",
+            name: "/user/permit",
+            component: require("./../views/user/permit").default,
+            props: true,
+        },
     ],
     mode: 'history',
     linkActiveClass: 'active',

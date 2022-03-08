@@ -26,6 +26,10 @@ Route::post('/admin/user/setRegisterUser', 'App\Http\Controllers\Admin\UsersCont
 Route::post('/admin/user/setEditUser', 'App\Http\Controllers\Admin\UsersController@setEditUser');
 Route::post('/admin/user/setChangeStatusUser', 'App\Http\Controllers\Admin\UsersController@setChangeStatusUser');
 Route::post('/admin/user/setEditRolByUser', 'App\Http\Controllers\Admin\UsersController@setEditRolByUser');
+Route::post('/admin/user/setRegisterRolePermitByUser', 'App\Http\Controllers\Admin\UsersController@setRegisterRolePermitByUser');
+Route::get('/admin/user/getRoleByUser', 'App\Http\Controllers\Admin\UsersController@getRoleByUser');
+Route::get('/admin/user/getListPermitByRolAsign', 'App\Http\Controllers\Admin\UsersController@getListPermitByRolAsign');
+Route::get('/admin/user/getListPermissionsByUser', 'App\Http\Controllers\Admin\UsersController@getListPermissionsByUser');
 
 Route::get('/admin/role/getlistRoles', 'App\Http\Controllers\Admin\RolesController@getlistRoles');
 Route::get('/admin/role/getListPermissionsByRole', 'App\Http\Controllers\Admin\RolesController@getListPermissionsByRole');

@@ -104,6 +104,26 @@
                       </div>
                     </div>
                     <div class="col-md-6">
+                      <label class="col-md-3 col-form-label">Roles</label>
+                      <div class="col-md-9">
+                        <template>
+                          <el-select
+                            v-model="fillEditUser.idRole"
+                            placeholder="Select a rol"
+                            clearable
+                          >
+                            <el-option
+                              v-for="item in listRoles"
+                              :key="item.id"
+                              :label="item.name"
+                              :value="item.id"
+                            >
+                            </el-option>
+                          </el-select>
+                        </template>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
                       <label class="col-md-3 col-form-label">Photography</label>
                       <div class="col-md-9">
                         <input
@@ -185,7 +205,9 @@ export default {
         email: "",
         password: "",
         photography: "",
+        idRole: "",
       },
+      listRoles: [],
       modalShow: false,
       viewModal: {
         display: "block",
@@ -258,17 +280,50 @@ export default {
           photography: idFile,
         })
         .then((response) => {
-          this.fullscreenLoading = false;
-          Swal.fire({
-            icon: "success",
-            title: "Update user successfully!!",
-            showConfirmButton: false,
-            timer: 1500,
-          });
+          this.setEditRolByUser();
+        });
+    },
+    setEditRolByUser() {
+      const url = "/admin/user/setEditRolByUser";
+      axios
+        .post(url, {
+          idUser: this.fillEditUser?.idUser,
+          idRole: this.fillEditUser?.idRole,
+        })
+        .then((response) => {
+            this.fullscreenLoading = false;
+            Swal.fire({
+                icon: "success",
+                title: "Update user successfully!!",
+                showConfirmButton: false,
+                timer: 1500,
+            });
+            // this.$router.push("/user");
         });
     },
     getFile(e) {
       this.fillEditUser.photography = e.target.files[0];
+    },
+    getlistRoles() {
+      this.fullscreenLoading = true;
+      let url = `/admin/role/getlistRoles`;
+      axios.get(url).then((response) => {
+        this.listRoles = response.data;
+        this.fullscreenLoading = false;
+      });
+    },
+    getRoleByUser() {
+      this.fullscreenLoading = true;
+      let url = `/admin/user/getRoleByUser`;
+      axios.get(url, {
+          params: {
+            idUser: this?.fillEditUser?.idUser,
+          }
+      }).then((response) => {
+        this.fillEditUser.idRole = response.data.length !== 0 ? response.data[0].nIdRol : null;
+        // this.listRoles = response.data;
+        this.fullscreenLoading = false;
+      });
     },
     openModal() {
       this.modalShow = !this.modalShow;
@@ -294,6 +349,9 @@ export default {
       if (!this.fillEditUser?.email) {
         this.messageError.push('"Email" <strong>is obligatory</strong>');
       }
+      if (!this.fillEditUser?.idRole) {
+        this.messageError.push('"Role" <strong>is obligatory</strong>');
+      }
       if (this.messageError.length) {
         this.error = 1;
       }
@@ -311,6 +369,8 @@ export default {
   },
   mounted() {
     this.getUserById();
+    this.getlistRoles();
+    this.getRoleByUser();
   },
 };
 </script>
