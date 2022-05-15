@@ -33,6 +33,7 @@ window.Vue = require('vue').default;
 window.Swal = require('sweetalert2');
 
 Vue.component('App', require('./components/App.vue').default);
+Vue.component('Auth', require('./components/Auth.vue').default);
 
 Vue.use(ElementUI);
 
