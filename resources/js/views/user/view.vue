@@ -42,7 +42,7 @@
                 </template>
               </div>
               <h3 class="profile-username text-center">{{ getFullName }}</h3>
-              <p class="text-muted text-center">Software Engineer</p>
+              <p class="text-muted text-center">{{ fillViewUser.nameRol }}</p>
             </div>
             <!-- /.card-body -->
           </div>
@@ -234,6 +234,7 @@ export default {
         password: "",
         photography: "",
         profileImage: "",
+        nameRol: "",
       },
       modalShow: false,
       viewModal: {
@@ -322,6 +323,22 @@ export default {
         this.setSaveUser(idFile);
       });
     },
+    getRoleByUser() {
+      this.fullscreenLoading = true;
+      let url = `/admin/user/getRoleByUser`;
+      axios
+        .get(url, {
+          params: {
+            idUser: this?.fillViewUser?.idUser,
+          },
+        })
+        .then((response) => {
+          this.fillViewUser.nameRol =
+            response.data.length !== 0 ? response.data[0].name : null;
+          // this.listRoles = response.data;
+          this.fullscreenLoading = false;
+        });
+    },
     setSaveUser(idFile = null) {
       const url = "/admin/user/setEditUser";
       axios
@@ -375,6 +392,7 @@ export default {
   },
   mounted() {
     this.getUserById();
+    this.getRoleByUser();
   },
 };
 </script>

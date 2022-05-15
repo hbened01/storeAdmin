@@ -6,9 +6,16 @@
     <body class="hold-transition sidebar-mini layout-fixed">
 
         <div class="wrapper" id="app">
-            <App
-                base-path="{{ route('basepath') }}"
-            />
+            @if (Auth::check())
+                <App
+                    base-path="{{ route('basepath') }}"
+                />
+
+            @else
+                <Auth
+                    base-path="{{ route('basepath') }}"
+                />
+            @endif
         </div>
         <!-- ./wrapper -->
 
